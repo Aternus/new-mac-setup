@@ -10,7 +10,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Run shellcheck
         run: shellcheck bootstrap.sh scripts/dock.sh scripts/macos-defaults.sh
@@ -24,7 +24,7 @@ jobs:
   validate:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Bash syntax check
         run: |
@@ -84,7 +84,9 @@ jobs:
           rm -rf "$SETUP_STATE_DIR"
           mkdir -p "$SETUP_STATE_DIR"
           date -u '+%Y-%m-%dT%H:%M:%SZ' > "$SETUP_STATE_DIR/hostname.done"
-          ./bootstrap.sh --status | grep -qE '^\[done\] hostname '
+          output="$(./bootstrap.sh --status)"
+          echo "$output"
+          echo "$output" | grep -qE '^\[done\] hostname '
 
       - name: --reset removes the state directory
         run: |
