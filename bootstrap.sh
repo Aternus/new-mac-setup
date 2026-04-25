@@ -99,7 +99,8 @@ reset_state() {
 backup_if_exists() {
   local path="$1"
   if [ -e "$path" ] || [ -L "$path" ]; then
-    local backup="${path}.backup.$(date +%Y%m%d%H%M%S)"
+    local backup
+    backup="${path}.backup.$(date +%Y%m%d%H%M%S)"
     mv "$path" "$backup"
     printf 'Backed up %s to %s\n' "$path" "$backup"
   fi
