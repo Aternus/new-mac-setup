@@ -41,7 +41,7 @@ is_done() {
 
 mark_done() {
   mkdir -p "$STATE_DIR"
-  date -u '+%Y-%m-%dT%H:%M:%SZ' > "$(state_path "$1")"
+  date -u '+%Y-%m-%dT%H:%M:%SZ' >"$(state_path "$1")"
 }
 
 run_step() {
@@ -82,7 +82,7 @@ show_status() {
   printf 'State directory: %s\n\n' "$STATE_DIR"
   local entry kind name _fn
   for entry in "${STEPS[@]}"; do
-    IFS=: read -r kind name _fn <<< "$entry"
+    IFS=: read -r kind name _fn <<<"$entry"
     if is_done "$name"; then
       printf '[done] %s (%s)\n' "$name" "$(cat "$(state_path "$name")")"
     else
@@ -132,7 +132,7 @@ ensure_command_line_tools() {
     return
   fi
 
-  date -u '+%Y-%m-%dT%H:%M:%SZ' > "$install_marker"
+  date -u '+%Y-%m-%dT%H:%M:%SZ' >"$install_marker"
   xcode-select --install || true
   cat <<'EOF'
 
@@ -236,7 +236,7 @@ install_vscode() {
   if command -v code >/dev/null 2>&1; then
     while IFS= read -r extension; do
       [ -n "$extension" ] && code --install-extension "$extension" --force
-    done < "$ROOT/vscode/extensions.txt"
+    done <"$ROOT/vscode/extensions.txt"
   else
     printf 'VS Code CLI "code" is not available yet. Install it from VS Code and rerun this script.\n'
   fi
@@ -264,7 +264,7 @@ restart_checkpoint() {
     return
   fi
 
-  date -u '+%Y-%m-%dT%H:%M:%SZ' > "$requested_file"
+  date -u '+%Y-%m-%dT%H:%M:%SZ' >"$requested_file"
   printf '\nRestart the Mac, then rerun:\n  cd "%s"\n  ./bootstrap.sh\n' "$ROOT"
   exit 0
 }
@@ -323,25 +323,28 @@ EOF
 
 main() {
   case "${1:-}" in
-    --status)
-      show_status
-      exit 0
-      ;;
-    --reset)
-      reset_state
-      exit 0
-      ;;
+  --status)
+    show_status
+    exit 0
+    ;;
+  --reset)
+    reset_state
+    exit 0
+    ;;
   esac
 
   mkdir -p "$STATE_DIR"
 
   local entry kind name fn
   for entry in "${STEPS[@]}"; do
-    IFS=: read -r kind name fn <<< "$entry"
+    IFS=: read -r kind name fn <<<"$entry"
     case "$kind" in
-      step)       run_step "$name" "$fn" ;;
-      checkpoint) restart_checkpoint "$name" ;;
-      *)          printf 'Unknown step kind: %s\n' "$kind" >&2; exit 1 ;;
+    step) run_step "$name" "$fn" ;;
+    checkpoint) restart_checkpoint "$name" ;;
+    *)
+      printf 'Unknown step kind: %s\n' "$kind" >&2
+      exit 1
+      ;;
     esac
   done
 
