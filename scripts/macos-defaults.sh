@@ -16,6 +16,8 @@ defaults write NSGlobalDomain AppleMetricUnits -bool true
 defaults write NSGlobalDomain AppleTemperatureUnit -string Celsius
 defaults write NSGlobalDomain AppleLanguages -array "en-US" "he-US" "ru-US"
 defaults write NSGlobalDomain AppleLocale -string "en_US"
+defaults write NSGlobalDomain AppleICUForce24HourTime -bool true
+defaults write NSGlobalDomain AppleICUDateFormatStrings -dict 1 "y.MM.dd"
 
 defaults write com.apple.finder AppleShowAllFiles -bool true
 defaults write com.apple.finder ShowPathbar -bool true

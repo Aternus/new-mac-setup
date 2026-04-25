@@ -4,6 +4,29 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 STATE_DIR="${SETUP_STATE_DIR:-$ROOT/.state}"
 
+# Apps that need to be opened once to grant macOS permissions, sign in, or
+# create their own login items. Keep this as the single source of truth.
+FIRST_RUN_APPS=(
+  "Docker Desktop"
+  "Raycast"
+  "Rectangle Pro"
+  "LinearMouse"
+  "LuLu"
+  "Loopback"
+  "Google Drive"
+  "Nextcloud"
+  "JetBrains Toolbox"
+  "VS Code"
+  "Cursor"
+)
+
+print_first_run_apps() {
+  local app
+  for app in "${FIRST_RUN_APPS[@]}"; do
+    printf -- '- %s\n' "$app"
+  done
+}
+
 log() {
   printf '\n==> %s\n' "$*"
 }
@@ -89,10 +112,20 @@ copy_file() {
 ensure_command_line_tools() {
   log "Checking Xcode Command Line Tools"
 
+  local install_marker="$STATE_DIR/command_line_tools.installed_this_run"
+
   if xcode-select -p >/dev/null 2>&1; then
+    if [ -f "$install_marker" ]; then
+      # CLT was installed by a previous run of this script; honor the restart.
+      rm -f "$install_marker"
+    else
+      # CLT was already present before this kit ran; skip the post-CLT restart.
+      mark_done restart_after_command_line_tools
+    fi
     return
   fi
 
+  date -u '+%Y-%m-%dT%H:%M:%SZ' > "$install_marker"
   xcode-select --install || true
   cat <<'EOF'
 
@@ -168,8 +201,8 @@ configure_hostname() {
 
   local hostname="${MAC_HOSTNAME:-mac-work}"
 
-  if [[ ! "$hostname" =~ ^[A-Za-z0-9-]+$ ]]; then
-    printf 'Skipping hostname setup: MAC_HOSTNAME must contain only letters, numbers, and hyphens.\n'
+  if [[ ! "$hostname" =~ ^[A-Za-z0-9]([A-Za-z0-9-]*[A-Za-z0-9])?$ ]]; then
+    printf 'Skipping hostname setup: MAC_HOSTNAME must contain only letters, numbers, and hyphens, and may not start or end with a hyphen.\n'
     return
   fi
 
@@ -225,48 +258,26 @@ restart_checkpoint() {
   exit 0
 }
 
-first_run_permissions_checkpoint() {
-  local requested_file="$STATE_DIR/first_run_permissions_shown"
-
-  if [ -f "$requested_file" ]; then
-    return
-  fi
-
-  date -u '+%Y-%m-%dT%H:%M:%SZ' > "$requested_file"
-  cat <<'EOF'
-
-Before restarting, open the apps that need first-run permissions where possible:
-- Docker Desktop
-- Raycast
-- Rectangle Pro
-- LinearMouse
-- LuLu
-- Loopback
-- Google Drive
-- Nextcloud
-- JetBrains Toolbox
-- VS Code and Cursor
-EOF
-}
-
 manual_checklist() {
   cat <<'EOF'
 
 Bootstrap complete.
 
 Remaining manual steps:
-- Sign into work Apple ID or managed Apple account if Oktopost requires it.
+- Sign into work Apple ID or managed Apple account if your employer requires it.
 - Sign into GitHub:
   gh auth login
   gh auth setup-git --hostname github.com
 - Create a new work SSH key instead of copying the personal private key.
 - Install Node versions and global JavaScript tooling manually.
 - Enable launch-at-login inside each app where needed.
-- Reopen Docker, LuLu, Loopback, Google Drive, Nextcloud, Raycast, Rectangle Pro, JetBrains Toolbox, VS Code, and Cursor to verify permissions.
 - Set Git identity if it was not provided during bootstrap:
   git config --global user.name "Your Name"
   git config --global user.email "you@example.com"
+
+Reopen these apps to verify permissions and sign in:
 EOF
+  print_first_run_apps
 }
 
 main() {
@@ -297,7 +308,6 @@ main() {
   run_step brew_bundle install_brew_bundle
   run_step git_basics configure_git_basics
   run_step macos_defaults apply_macos_defaults
-  first_run_permissions_checkpoint
   restart_checkpoint restart_after_install
 
   run_step vscode install_vscode

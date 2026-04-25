@@ -4,6 +4,9 @@ This setup kit was generated on 2026-04-25.
 It automates the safe, repeatable parts of the current Mac setup while avoiding
 personal secrets and account-specific state.
 
+Requires Apple Silicon: paths to Homebrew (`/opt/homebrew`) and miniforge are
+hardcoded.
+
 ## Expected Coverage
 
 Roughly 70-80% of the practical setup can be automated:
@@ -50,6 +53,19 @@ git config --global user.name "Your Name"
 git config --global user.email "you@example.com"
 ```
 
+### Personal bin directory
+
+The shell config honors an optional `PERSONAL_MACOS_LIB` environment variable.
+If set to the absolute path of a directory containing personal executables,
+that directory is prepended to `PATH`. Set it in `~/.zshenv` or elsewhere in
+your shell environment; leave it unset to no-op.
+
+```sh
+export PERSONAL_MACOS_LIB="$HOME/Dev/bin"
+```
+
+### Phases
+
 The bootstrap runs in five phases:
 
 - Phase 1 sets the hostname and stops at a restart checkpoint. Restart the Mac,
@@ -65,19 +81,8 @@ The bootstrap runs in five phases:
 - Phase 5 runs after the fourth restart and finishes VS Code settings and
   extensions, Dock layout, and the remaining manual checklist.
 
-After phase 4, the script stops at another restart checkpoint. Before
-restarting, open the apps that need first-run permissions where possible:
-
-- Docker Desktop
-- Raycast
-- Rectangle Pro
-- LinearMouse
-- LuLu
-- Loopback
-- Google Drive
-- Nextcloud
-- JetBrains Toolbox
-- VS Code and Cursor
+At the end of phase 5, the manual checklist prints the canonical list of apps
+to open for first-run permissions and sign-in.
 
 Useful state commands:
 
@@ -145,9 +150,8 @@ corepack prepare pnpm@10.33.0 --activate
 corepack prepare yarn@1.22.22 --activate
 ```
 
-- Open Docker Desktop once and approve its helper/permission prompts.
-- Open Raycast, Rectangle Pro, LinearMouse, LuLu, Google Drive, JetBrains
-  Toolbox, VS Code, and Cursor once.
+- Open each app from the first-run list printed by `bootstrap.sh` to approve
+  helper/permission prompts and sign in.
 - Enable launch-at-login inside each app where needed; avoid adding generic
   login items manually unless the app lacks
   its own setting.
