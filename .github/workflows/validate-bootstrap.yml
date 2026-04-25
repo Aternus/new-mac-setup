@@ -1,0 +1,99 @@
+name: Validate bootstrap
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run shellcheck
+        run: shellcheck bootstrap.sh scripts/dock.sh scripts/macos-defaults.sh
+
+      - name: Install shfmt
+        run: sudo apt-get update && sudo apt-get install -y shfmt
+
+      - name: Run shfmt
+        run: shfmt -i 2 -d bootstrap.sh scripts/dock.sh scripts/macos-defaults.sh
+
+  validate:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Bash syntax check
+        run: |
+          bash -n bootstrap.sh
+          bash -n scripts/dock.sh
+          bash -n scripts/macos-defaults.sh
+
+      - name: Scripts are executable
+        run: |
+          test -x bootstrap.sh
+          test -x scripts/dock.sh
+          test -x scripts/macos-defaults.sh
+
+      - name: Referenced config files exist
+        run: |
+          test -f Brewfile
+          test -f config/zsh/zprofile
+          test -f config/zsh/zshrc
+          test -f config/starship/starship.toml
+          test -f config/ghostty/config
+          test -f vscode/settings.json
+          test -f vscode/extensions.txt
+
+      - name: STEPS entries reference defined functions
+        run: |
+          set -euo pipefail
+          missing=0
+          while IFS= read -r fn; do
+            if ! grep -qE "^${fn}\(\) \{" bootstrap.sh; then
+              echo "STEPS references undefined function: $fn"
+              missing=1
+            fi
+          done < <(awk '/^STEPS=\(/,/^\)/' bootstrap.sh \
+                    | grep -oE '"step:[^:"]+:[A-Za-z_][A-Za-z0-9_]*"' \
+                    | awk -F: '{gsub(/"/,"",$3); print $3}')
+          exit "$missing"
+
+      - name: --status on fresh state lists every step as todo
+        run: |
+          set -euo pipefail
+          export SETUP_STATE_DIR="$RUNNER_TEMP/state-fresh"
+          rm -rf "$SETUP_STATE_DIR"
+          output="$(./bootstrap.sh --status)"
+          echo "$output"
+          for name in hostname restart_after_hostname command_line_tools \
+                      restart_after_command_line_tools oh_my_zsh shell_configs \
+                      homebrew restart_after_homebrew brew_bundle git_basics \
+                      macos_defaults restart_after_install vscode dock; do
+            echo "$output" | grep -qE "^\[todo\] ${name}$" \
+              || { echo "Expected [todo] ${name} in --status output"; exit 1; }
+          done
+
+      - name: --status reflects completed steps
+        run: |
+          set -euo pipefail
+          export SETUP_STATE_DIR="$RUNNER_TEMP/state-partial"
+          rm -rf "$SETUP_STATE_DIR"
+          mkdir -p "$SETUP_STATE_DIR"
+          date -u '+%Y-%m-%dT%H:%M:%SZ' > "$SETUP_STATE_DIR/hostname.done"
+          ./bootstrap.sh --status | grep -qE '^\[done\] hostname '
+
+      - name: --reset removes the state directory
+        run: |
+          set -euo pipefail
+          export SETUP_STATE_DIR="$RUNNER_TEMP/state-reset"
+          mkdir -p "$SETUP_STATE_DIR"
+          touch "$SETUP_STATE_DIR/sentinel.done"
+          ./bootstrap.sh --reset
+          test ! -e "$SETUP_STATE_DIR"
+
+      - name: Brewfile parses
+        run: brew bundle list --file Brewfile >/dev/null
