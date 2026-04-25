@@ -136,22 +136,22 @@ What this kit covers, and what it deliberately leaves to you.
 
 Around 70–80% of a fresh Mac setup. Coverage by area:
 
-| Area                                         | Automation level | Notes                                                                                                                                                 |
-|----------------------------------------------|------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Homebrew CLI tools and GUI apps              | High             | `Brewfile` installs work-appropriate defaults plus a personal/entertainment block; comment out anything that doesn't belong on an employer-owned Mac. |
-| Shell and prompt                             | High             | Installs Oh My Zsh, plugins, `.zprofile`, `.zshrc`, Starship.                                                                                         |
-| Node tooling                                 | Manual           | Installs `nvm` through Homebrew only; Node versions and global packages are manual.                                                                   |
-| VS Code                                      | High             | Restores settings and extensions.                                                                                                                     |
-| Ghostty config                               | High             | Copies the current terminal config exactly.                                                                                                           |
-| macOS defaults                               | Medium-high      | Applies Finder, Dock, keyboard, screenshot, language, region, and timezone defaults.                                                                  |
-| Dock layout                                  | Medium           | Uses `dockutil`; only adds apps already installed. JetBrains IDEs are not pinned automatically; pin them manually after Toolbox installs them.        |
-| Login items                                  | Manual           | Let each app create its own login/background item during first run or from its settings.                                                              |
-| JetBrains IDEs                               | Medium-low       | Toolbox install is automated; IDE installs and account sync are usually interactive.                                                                  |
-| Docker                                       | Medium-low       | App install is automated; first launch, permissions, image/volume state are manual.                                                                   |
-| Raycast, Rectangle Pro, LuLu                 | Medium-low       | App install is automated; permissions, licenses, rules, and tokens need review.                                                                       |
-| Cloud storage                                | Low              | Apps install automatically; account sign-in and folder hydration are manual.                                                                          |
-| SSH, npm, browser profiles, Keychain secrets | Manual           | Do not copy personal secrets blindly to an employer-owned Mac.                                                                                        |
-| App Store apps                               | Manual           | `mas` was not present in the source analysis, so App Store app restore is not scripted.                                                               |
+| Area                                         | Automation level | Notes                                                                                                                                          |
+|----------------------------------------------|------------------|------------------------------------------------------------------------------------------------------------------------------------------------|
+| CLI tools and GUI apps                       | High             | `Brewfile` installs work-appropriate defaults plus a personal/entertainment block; comment out anything that doesn't belong.                   |
+| Shell and prompt                             | High             | Installs Oh My Zsh, plugins, `.zprofile`, `.zshrc`, Starship and required fonts.                                                               |
+| Ghostty config                               | High             | Copies the current terminal config exactly.                                                                                                    |
+| Docker                                       | Medium           | App install and shell integration is automated; first launch, permissions, image/volume state are manual.                                      |
+| Node tooling                                 | Low              | Installs `nvm` through Homebrew only and provides the required defaults in `.zshrc`; Node versions and global packages are manual.             |
+| macOS defaults                               | Medium           | Applies Finder, Dock, keyboard, screenshot, language, region, and timezone defaults.                                                           |
+| Dock layout                                  | Medium           | Uses `dockutil`; only adds apps already installed. JetBrains IDEs are not pinned automatically; pin them manually after Toolbox installs them. |
+| VS Code                                      | High             | Restores settings and extensions.                                                                                                              |
+| JetBrains IDEs                               | Low              | Toolbox install is automated; IDE installs and account sync are usually interactive.                                                           |
+| Raycast, Rectangle Pro, LuLu                 | Low              | App install is automated; permissions, licenses, rules, and tokens need review.                                                                |
+| Cloud storage                                | Low              | Apps install automatically; account sign-in and folder hydration are manual.                                                                   |
+| Login items                                  | Manual           | Let each app create its own login/background item during first run or from its settings.                                                       |
+| SSH, npm, browser profiles, Keychain secrets | Manual           | Do not copy personal secrets blindly to an employer-owned Mac.                                                                                 |
+| App Store apps                               | Manual           | App Store app restore is not scripted. Install from AppStore after logging-in.                                                                 |
 
 ### What's Not Automated
 
@@ -164,7 +164,7 @@ Personal secrets and account-bound state — left to you on purpose:
 - Browser profiles and saved sessions
 - MacPass database location or passwords
 - Docker images, containers, and volumes
-- Personal Dropbox/Nextcloud state
+- Personal Dropbox/Google Drive/Nextcloud state
 - LuLu allow/block rules
 - LinearMouse config
-- Printer setup
+- Printer setup 😜
