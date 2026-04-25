@@ -1,0 +1,78 @@
+{
+  "telemetry.telemetryLevel": "off",
+  "workbench.enableExperiments": false,
+  "update.showReleaseNotes": false,
+  "prettier.arrowParens": "always",
+  "prettier.endOfLine": "lf",
+  "prettier.quoteProps": "consistent",
+  "prettier.singleQuote": true,
+  "prettier.trailingComma": "all",
+  "cSpell.userWords": [
+    "kubectl",
+    "Kubernetes",
+    "memoization",
+    "nestjs",
+    "nextjs",
+    "sendgrid",
+    "Telepresence",
+    "xdebug"
+  ],
+  "editor.minimap.enabled": false,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[xml]": {
+    "editor.defaultFormatter": "redhat.vscode-xml"
+  },
+  "[bat]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "workbench.editor.enablePreviewFromQuickOpen": false,
+  "cSpell.language": "en,he,ru",
+  "workbench.startupEditor": "none",
+  "explorer.confirmDelete": false,
+  "explorer.confirmDragAndDrop": false,
+  "editor.accessibilitySupport": "off",
+  "settingsSync.ignoredExtensions": [],
+  "settingsSync.ignoredSettings": [],
+  "security.workspace.trust.untrustedFiles": "open",
+  "workbench.editor.wrapTabs": true,
+  "workbench.editor.enablePreview": false,
+  "git.openRepositoryInParentFolders": "never",
+  "files.insertFinalNewline": true,
+  "[shellscript]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+  "[properties]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+  "workbench.colorTheme": "Visual Studio Dark",
+  "[powershell]": {
+    "editor.defaultFormatter": "ms-vscode.powershell"
+  },
+  "extensions.ignoreRecommendations": true,
+  "github.copilot.enable": {
+    "*": false,
+    "plaintext": false,
+    "markdown": false,
+    "scminput": false
+  },
+  "shellformat.effectLanguages": [
+    "shellscript",
+    "dockerfile",
+    "dotenv",
+    "hosts",
+    "jvmoptions",
+    "ignore",
+    "gitignore",
+    "properties",
+    "spring-boot-properties",
+    "azcli",
+    "bats"
+  ],
+  "chat.viewSessions.orientation": "stacked",
+  "[toml]": {
+    "editor.defaultFormatter": "tamasfe.even-better-toml"
+  }
+}

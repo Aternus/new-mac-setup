@@ -1,0 +1,17 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+add_newline = true
+
+right_format = """
+$conda
+$kubernetes
+"""
+
+[conda]
+ignore_base = false
+
+[package]
+display_private = true
+
+[kubernetes]
+disabled = false
