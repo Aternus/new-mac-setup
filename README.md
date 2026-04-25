@@ -1,32 +1,32 @@
 # New Mac Setup Kit
 
-This setup kit was generated on 2026-04-25.
-It automates the safe, repeatable parts of the current Mac setup while avoiding
-personal secrets and account-specific state.
+|              |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+|-------------:|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Platform** | [![macOS](https://img.shields.io/badge/macOS-Sequoia%2B-000000?logo=apple&logoColor=white)](https://www.apple.com/macos/) [![Apple Silicon](https://img.shields.io/badge/Apple%20Silicon-M1%2FM2%2FM3%2FM4%2FM5-555555?logo=apple&logoColor=white)](https://support.apple.com/en-us/HT211814)                                                                                                                                                                                                                                                                                              |
+|    **Stack** | [![Shell](https://img.shields.io/badge/shell-zsh-1A1A1A?logo=gnubash&logoColor=white)](https://www.zsh.org/) [![Homebrew](https://img.shields.io/badge/Homebrew-Brewfile-FBB040?logo=homebrew&logoColor=white)](https://brew.sh/) [![Starship](https://img.shields.io/badge/prompt-Starship-DD0B78?logo=starship&logoColor=white)](https://starship.rs/) [![Ghostty](https://img.shields.io/badge/terminal-Ghostty-7B68EE)](https://ghostty.org/) [![VS Code](https://img.shields.io/badge/VS%20Code-synced-007ACC?logo=visualstudiocode&logoColor=white)](https://code.visualstudio.com/) |
+|  **Quality** | [![Idempotent](https://img.shields.io/badge/safe%20to%20rerun-idempotent-2EA44F)](#getting-started) [![ShellCheck](https://img.shields.io/badge/linted-shellcheck-4EAA25?logo=gnubash&logoColor=white)](https://www.shellcheck.net/)                                                                                                                                                                                                                                                                                                                                                       |
+|     **Meta** | [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 
-Requires Apple Silicon: paths to Homebrew (`/opt/homebrew`) and miniforge are
-hardcoded.
+> **From boxed Mac to working dev machine in one command.**
+> A phased, idempotent bootstrap script that installs your CLI tools, GUI apps,
+> shell, prompt, terminal, editor, and macOS defaults — without leaking
+> personal secrets or account state onto an employer-owned machine.
 
-## Expected Coverage
+⭐ **If this saved you a day, please star the repo** — it helps other devs find
+it.
 
-Roughly 70-80% of the practical setup can be automated:
+**Why this kit?**
 
-| Area                                         | Automation level | Notes                                                                                                                                                 |
-|----------------------------------------------|------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Homebrew CLI tools and GUI apps              | High             | `Brewfile` installs work-appropriate defaults plus a personal/entertainment block; comment out anything that doesn't belong on an employer-owned Mac. |
-| Shell and prompt                             | High             | Installs Oh My Zsh, plugins, `.zprofile`, `.zshrc`, Starship.                                                                                         |
-| Node tooling                                 | Manual           | Installs `nvm` through Homebrew only; Node versions and global packages are manual.                                                                   |
-| VS Code                                      | High             | Restores settings and extensions.                                                                                                                     |
-| Ghostty config                               | High             | Copies the current terminal config exactly.                                                                                                           |
-| macOS defaults                               | Medium-high      | Applies Finder, Dock, keyboard, screenshot, language, region, and timezone defaults.                                                                  |
-| Dock layout                                  | Medium           | Uses `dockutil`; only adds apps already installed. JetBrains IDEs are not pinned automatically; pin them manually after Toolbox installs them.        |
-| Login items                                  | Manual           | Let each app create its own login/background item during first run or from its settings.                                                              |
-| JetBrains IDEs                               | Medium-low       | Toolbox install is automated; IDE installs and account sync are usually interactive.                                                                  |
-| Docker                                       | Medium-low       | App install is automated; first launch, permissions, image/volume state are manual.                                                                   |
-| Raycast, Rectangle Pro, LuLu                 | Medium-low       | App install is automated; permissions, licenses, rules, and tokens need review.                                                                       |
-| Cloud storage                                | Low              | Apps install automatically; account sign-in and folder hydration are manual.                                                                          |
-| SSH, npm, browser profiles, Keychain secrets | Manual           | Do not copy personal secrets blindly to an employer-owned Mac.                                                                                        |
-| App Store apps                               | Manual           | `mas` was not present in the source analysis, so App Store app restore is not scripted.                                                               |
+- 🚀 **One command, repeatable.** Run `./bootstrap.sh`, restart when prompted,
+  rerun. Done.
+- 🧱 **Phased & idempotent.** Five clearly numbered phases with checkpoints;
+  completed steps are skipped on rerun.
+- 🔒 **Secret-safe by default.** SSH keys, npm tokens, browser profiles, and
+  Keychain entries are explicitly *not* copied.
+- 🧰 **Curated, not bloated.** A practical Brewfile of CLI + GUI tools real
+  developers use, with personal apps cleanly separated.
+- 🍎 **Apple Silicon native.** Built and tested on M-series Macs (M1 → M5); paths
+  to Homebrew (`/opt/homebrew`) and miniforge are hardcoded.
 
 ## Getting Started
 
@@ -128,9 +128,34 @@ permissions, JetBrains setup, etc.) is printed by `bootstrap.sh` at the end of
 phase 5. That output is the source of truth — rerun `./bootstrap.sh` once all
 phases are complete to print it again.
 
-## Explicitly Not Automated
+## Scope
 
-These are intentionally excluded:
+What this kit covers, and what it deliberately leaves to you.
+
+### What's Automated
+
+Around 70–80% of a fresh Mac setup. Coverage by area:
+
+| Area                                         | Automation level | Notes                                                                                                                                                 |
+|----------------------------------------------|------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Homebrew CLI tools and GUI apps              | High             | `Brewfile` installs work-appropriate defaults plus a personal/entertainment block; comment out anything that doesn't belong on an employer-owned Mac. |
+| Shell and prompt                             | High             | Installs Oh My Zsh, plugins, `.zprofile`, `.zshrc`, Starship.                                                                                         |
+| Node tooling                                 | Manual           | Installs `nvm` through Homebrew only; Node versions and global packages are manual.                                                                   |
+| VS Code                                      | High             | Restores settings and extensions.                                                                                                                     |
+| Ghostty config                               | High             | Copies the current terminal config exactly.                                                                                                           |
+| macOS defaults                               | Medium-high      | Applies Finder, Dock, keyboard, screenshot, language, region, and timezone defaults.                                                                  |
+| Dock layout                                  | Medium           | Uses `dockutil`; only adds apps already installed. JetBrains IDEs are not pinned automatically; pin them manually after Toolbox installs them.        |
+| Login items                                  | Manual           | Let each app create its own login/background item during first run or from its settings.                                                              |
+| JetBrains IDEs                               | Medium-low       | Toolbox install is automated; IDE installs and account sync are usually interactive.                                                                  |
+| Docker                                       | Medium-low       | App install is automated; first launch, permissions, image/volume state are manual.                                                                   |
+| Raycast, Rectangle Pro, LuLu                 | Medium-low       | App install is automated; permissions, licenses, rules, and tokens need review.                                                                       |
+| Cloud storage                                | Low              | Apps install automatically; account sign-in and folder hydration are manual.                                                                          |
+| SSH, npm, browser profiles, Keychain secrets | Manual           | Do not copy personal secrets blindly to an employer-owned Mac.                                                                                        |
+| App Store apps                               | Manual           | `mas` was not present in the source analysis, so App Store app restore is not scripted.                                                               |
+
+### What's Not Automated
+
+Personal secrets and account-bound state — left to you on purpose:
 
 - `~/.ssh/id_ed25519`
 - `~/.npmrc`
