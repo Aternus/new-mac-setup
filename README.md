@@ -11,22 +11,22 @@ hardcoded.
 
 Roughly 70-80% of the practical setup can be automated:
 
-| Area                                         | Automation level | Notes                                                                                                 |
-|----------------------------------------------|------------------|-------------------------------------------------------------------------------------------------------|
-| Homebrew CLI tools and GUI apps              | High             | `Brewfile` installs work-appropriate defaults. Personal apps are commented out.                       |
-| Shell and prompt                             | High             | Installs Oh My Zsh, plugins, `.zprofile`, `.zshrc`, Starship.                                         |
-| Node tooling                                 | Manual           | Installs `nvm` through Homebrew only; Node versions and global packages are manual.                   |
-| VS Code                                      | High             | Restores settings and extensions.                                                                     |
-| Ghostty config                               | High             | Copies the current terminal config exactly.                                                           |
-| macOS defaults                               | Medium-high      | Applies Finder, Dock, keyboard, screenshot, language, region, and timezone defaults.                  |
-| Dock layout                                  | Medium           | Uses `dockutil`; only adds apps already installed. JetBrains IDEs appear after Toolbox installs them. |
-| Login items                                  | Manual           | Let each app create its own login/background item during first run or from its settings.              |
-| JetBrains IDEs                               | Medium-low       | Toolbox install is automated; IDE installs and account sync are usually interactive.                  |
-| Docker                                       | Medium-low       | App install is automated; first launch, permissions, image/volume state are manual.                   |
-| Raycast, Rectangle Pro, LuLu                 | Medium-low       | App install is automated; permissions, licenses, rules, and tokens need review.                       |
-| Cloud storage                                | Low              | Apps install automatically; account sign-in and folder hydration are manual.                          |
-| SSH, npm, browser profiles, Keychain secrets | Manual           | Do not copy personal secrets blindly to an employer-owned Mac.                                        |
-| App Store apps                               | Manual           | `mas` was not present in the source analysis, so App Store app restore is not scripted.               |
+| Area                                         | Automation level | Notes                                                                                                                                                 |
+|----------------------------------------------|------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Homebrew CLI tools and GUI apps              | High             | `Brewfile` installs work-appropriate defaults plus a personal/entertainment block; comment out anything that doesn't belong on an employer-owned Mac. |
+| Shell and prompt                             | High             | Installs Oh My Zsh, plugins, `.zprofile`, `.zshrc`, Starship.                                                                                         |
+| Node tooling                                 | Manual           | Installs `nvm` through Homebrew only; Node versions and global packages are manual.                                                                   |
+| VS Code                                      | High             | Restores settings and extensions.                                                                                                                     |
+| Ghostty config                               | High             | Copies the current terminal config exactly.                                                                                                           |
+| macOS defaults                               | Medium-high      | Applies Finder, Dock, keyboard, screenshot, language, region, and timezone defaults.                                                                  |
+| Dock layout                                  | Medium           | Uses `dockutil`; only adds apps already installed. JetBrains IDEs are not pinned automatically; pin them manually after Toolbox installs them.        |
+| Login items                                  | Manual           | Let each app create its own login/background item during first run or from its settings.                                                              |
+| JetBrains IDEs                               | Medium-low       | Toolbox install is automated; IDE installs and account sync are usually interactive.                                                                  |
+| Docker                                       | Medium-low       | App install is automated; first launch, permissions, image/volume state are manual.                                                                   |
+| Raycast, Rectangle Pro, LuLu                 | Medium-low       | App install is automated; permissions, licenses, rules, and tokens need review.                                                                       |
+| Cloud storage                                | Low              | Apps install automatically; account sign-in and folder hydration are manual.                                                                          |
+| SSH, npm, browser profiles, Keychain secrets | Manual           | Do not copy personal secrets blindly to an employer-owned Mac.                                                                                        |
+| App Store apps                               | Manual           | `mas` was not present in the source analysis, so App Store app restore is not scripted.                                                               |
 
 ## Getting Started
 
@@ -66,23 +66,45 @@ export PERSONAL_MACOS_LIB="$HOME/Dev/bin"
 
 ### Phases
 
-The bootstrap runs in five phases:
+The bootstrap runs in five phases. After each restart checkpoint, restart the
+Mac and rerun `./bootstrap.sh`. Completed steps are skipped.
 
-- Phase 1 sets the hostname and stops at a restart checkpoint. Restart the Mac,
-  then rerun `./bootstrap.sh`.
-- Phase 2 checks for Xcode Command Line Tools and then stops at a restart
-  checkpoint. If Xcode Command Line Tools are missing, the script opens Apple's
-  installer and exits; finish that installer, then rerun `./bootstrap.sh`.
-- Phase 3 runs after the second restart, installs Oh My Zsh and plugins, shell
-  config, Starship, Ghostty config, and Homebrew, then stops at another restart
-  checkpoint.
-- Phase 4 runs after the third restart, installs Homebrew bundle packages, Git
-  basics, and macOS defaults, then stops at another restart checkpoint.
-- Phase 5 runs after the fourth restart and finishes VS Code settings and
-  extensions, Dock layout, and the remaining manual checklist.
+**Phase 1 — Hostname**
 
-At the end of phase 5, the manual checklist prints the canonical list of apps
-to open for first-run permissions and sign-in.
+- Sets the Mac `ComputerName` and `LocalHostName` from `MAC_HOSTNAME`,
+  defaulting to `mac-work`.
+- Restart checkpoint.
+
+**Phase 2 — Xcode Command Line Tools**
+
+- Installs Xcode Command Line Tools if missing. If the installer is launched,
+  the script exits; finish the installer, then rerun `./bootstrap.sh`.
+- Restart checkpoint.
+
+**Phase 3 — Shell and Homebrew**
+
+- Installs Oh My Zsh and custom plugins.
+- Installs shell, Starship, and Ghostty configs.
+- Installs Homebrew if missing.
+- Restart checkpoint.
+
+**Phase 4 — Packages and system defaults**
+
+- Runs `brew bundle` against `Brewfile`.
+- Configures Git LFS and line endings (and Git identity if `GIT_USER_NAME` /
+  `GIT_USER_EMAIL` are set).
+- Applies macOS defaults.
+- Restart checkpoint.
+
+**Phase 5 — Apps and finish**
+
+- Installs VS Code settings and extensions.
+- Applies the Dock layout.
+- Prints the manual checklist, including the canonical list of apps to open for
+  first-run permissions and sign-in.
+
+Existing config files are moved aside with a `.backup.YYYYMMDDHHMMSS` suffix
+when their contents differ.
 
 Useful state commands:
 
@@ -90,26 +112,6 @@ Useful state commands:
 ./bootstrap.sh --status
 ./bootstrap.sh --reset
 ```
-
-## What The Bootstrap Does
-
-- Sets the Mac `ComputerName` and `LocalHostName` from `MAC_HOSTNAME`,
-  defaulting to `mac-work`.
-- Stops at a restart checkpoint after hostname setup.
-- Installs Xcode Command Line Tools if needed.
-- Stops at a restart checkpoint after the Xcode Command Line Tools step.
-- Installs Oh My Zsh and custom plugins.
-- Installs safe shell, Starship, and Ghostty configs.
-- Installs Homebrew if needed.
-- Stops at a restart checkpoint after Homebrew setup.
-- Runs `brew bundle` against `Brewfile`.
-- Configures Git LFS and line endings.
-- Applies macOS defaults.
-- Stops at a restart checkpoint after the core install.
-- Installs VS Code settings and extensions after restart.
-- Applies a Dock layout after restart.
-
-Existing config files are moved aside with a `.backup.YYYYMMDDHHMMSS` suffix.
 
 ## Optional Steps
 
@@ -121,47 +123,10 @@ brew bundle --file Brewfile
 
 ## Manual Checklist
 
-Do these after the bootstrap:
-
-- Sign into your work Apple ID or managed account, if applicable.
-- Sign into GitHub:
-
-```sh
-gh auth login
-gh auth setup-git --hostname github.com
-```
-
-- Generate a new work SSH key:
-
-```sh
-ssh-keygen -t ed25519 -C "you@example.com"
-```
-
-- Decide whether a work npm token is needed; do not copy the personal `.npmrc`.
-- Install Node versions and global JavaScript tooling:
-
-```sh
-nvm install 22.22.2
-nvm install 18.20.8
-nvm alias default 22.22.2
-nvm use default
-corepack enable
-corepack prepare pnpm@10.33.0 --activate
-corepack prepare yarn@1.22.22 --activate
-```
-
-- Open each app from the first-run list printed by `bootstrap.sh` to approve
-  helper/permission prompts and sign in.
-- Enable launch-at-login inside each app where needed; avoid adding generic
-  login items manually unless the app lacks
-  its own setting.
-- Grant Accessibility, Full Disk Access, Input Monitoring, Screen Recording, and
-  network-filter permissions where macOS
-  asks.
-- Install required JetBrains IDEs from Toolbox and sign into the appropriate
-  JetBrains account.
-- Clone only work-relevant repos into `~/Dev`.
-- Run `mkcert -install` only if local HTTPS development needs it.
+The canonical manual checklist (GitHub auth, SSH key, Node tooling, app
+permissions, JetBrains setup, etc.) is printed by `bootstrap.sh` at the end of
+phase 5. That output is the source of truth — rerun `./bootstrap.sh` once all
+phases are complete to print it again.
 
 ## Explicitly Not Automated
 

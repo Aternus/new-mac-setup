@@ -57,29 +57,36 @@ run_step() {
   mark_done "$step"
 }
 
+# Single source of truth for the bootstrap pipeline. Each entry is
+# "kind:name[:function]" where kind is "step" or "checkpoint". Both main() and
+# show_status() iterate this list.
+STEPS=(
+  "step:hostname:configure_hostname"
+  "checkpoint:restart_after_hostname"
+  "step:command_line_tools:ensure_command_line_tools"
+  "checkpoint:restart_after_command_line_tools"
+  "step:oh_my_zsh:install_oh_my_zsh"
+  "step:shell_configs:install_shell_configs"
+  "step:homebrew:ensure_homebrew"
+  "checkpoint:restart_after_homebrew"
+  "step:brew_bundle:install_brew_bundle"
+  "step:git_basics:configure_git_basics"
+  "step:macos_defaults:apply_macos_defaults"
+  "checkpoint:restart_after_install"
+  "step:vscode:install_vscode"
+  "step:dock:apply_dock_layout"
+)
+
 show_status() {
   mkdir -p "$STATE_DIR"
   printf 'State directory: %s\n\n' "$STATE_DIR"
-  for step in \
-    hostname \
-    restart_after_hostname \
-    command_line_tools \
-    restart_after_command_line_tools \
-    oh_my_zsh \
-    shell_configs \
-    homebrew \
-    restart_after_homebrew \
-    brew_bundle \
-    git_basics \
-    macos_defaults \
-    restart_after_install \
-    vscode \
-    dock
-  do
-    if is_done "$step"; then
-      printf '[done] %s (%s)\n' "$step" "$(cat "$(state_path "$step")")"
+  local entry kind name _fn
+  for entry in "${STEPS[@]}"; do
+    IFS=: read -r kind name _fn <<< "$entry"
+    if is_done "$name"; then
+      printf '[done] %s (%s)\n' "$name" "$(cat "$(state_path "$name")")"
     else
-      printf '[todo] %s\n' "$step"
+      printf '[todo] %s\n' "$name"
     fi
   done
 }
@@ -184,7 +191,11 @@ install_shell_configs() {
 configure_git_basics() {
   log "Configuring Git basics"
 
-  git lfs install
+  if command -v git-lfs >/dev/null 2>&1; then
+    git lfs install
+  else
+    printf 'git-lfs not installed; skipping git lfs install.\n'
+  fi
   git config --global core.autocrlf input
 
   if [ -n "${GIT_USER_NAME:-}" ]; then
@@ -238,7 +249,7 @@ apply_macos_defaults() {
 
 apply_dock_layout() {
   log "Applying Dock layout"
-  "$ROOT/scripts/dock.sh" || true
+  "$ROOT/scripts/dock.sh"
 }
 
 restart_checkpoint() {
@@ -264,18 +275,48 @@ manual_checklist() {
 Bootstrap complete.
 
 Remaining manual steps:
-- Sign into work Apple ID or managed Apple account if your employer requires it.
-- Sign into GitHub:
-  gh auth login
-  gh auth setup-git --hostname github.com
-- Create a new work SSH key instead of copying the personal private key.
-- Install Node versions and global JavaScript tooling manually.
-- Enable launch-at-login inside each app where needed.
-- Set Git identity if it was not provided during bootstrap:
-  git config --global user.name "Your Name"
-  git config --global user.email "you@example.com"
 
-Reopen these apps to verify permissions and sign in:
+- Sign into your work Apple ID or managed Apple account, if applicable.
+
+- Sign into GitHub:
+    gh auth login
+    gh auth setup-git --hostname github.com
+
+- Generate a new work SSH key (do not copy the personal one):
+    ssh-keygen -t ed25519 -C "you@example.com"
+
+- Decide whether a work npm token is needed; do not copy the personal ~/.npmrc.
+
+- Install Node versions and global JavaScript tooling:
+    nvm install 22.22.2
+    nvm install 18.20.8
+    nvm alias default 22.22.2
+    nvm use default
+    corepack enable
+    corepack prepare pnpm@10.33.0 --activate
+    corepack prepare yarn@1.22.22 --activate
+
+- Set Git identity if it was not provided during bootstrap:
+    git config --global user.name "Your Name"
+    git config --global user.email "you@example.com"
+
+- Open each app from the first-run list below to approve helper/permission
+  prompts and sign in.
+
+- Enable launch-at-login inside each app where needed; avoid generic login
+  items unless the app lacks its own setting.
+
+- Grant Accessibility, Full Disk Access, Input Monitoring, Screen Recording,
+  and network-filter permissions where macOS asks.
+
+- Install required JetBrains IDEs from Toolbox and sign into the appropriate
+  JetBrains account.
+
+- Clone only work-relevant repos into ~/Dev.
+
+- Run "mkcert -install" only if local HTTPS development needs it.
+
+First-run apps to reopen:
 EOF
   print_first_run_apps
 }
@@ -294,24 +335,16 @@ main() {
 
   mkdir -p "$STATE_DIR"
 
-  run_step hostname configure_hostname
-  restart_checkpoint restart_after_hostname
+  local entry kind name fn
+  for entry in "${STEPS[@]}"; do
+    IFS=: read -r kind name fn <<< "$entry"
+    case "$kind" in
+      step)       run_step "$name" "$fn" ;;
+      checkpoint) restart_checkpoint "$name" ;;
+      *)          printf 'Unknown step kind: %s\n' "$kind" >&2; exit 1 ;;
+    esac
+  done
 
-  run_step command_line_tools ensure_command_line_tools
-  restart_checkpoint restart_after_command_line_tools
-
-  run_step oh_my_zsh install_oh_my_zsh
-  run_step shell_configs install_shell_configs
-  run_step homebrew ensure_homebrew
-  restart_checkpoint restart_after_homebrew
-
-  run_step brew_bundle install_brew_bundle
-  run_step git_basics configure_git_basics
-  run_step macos_defaults apply_macos_defaults
-  restart_checkpoint restart_after_install
-
-  run_step vscode install_vscode
-  run_step dock apply_dock_layout
   manual_checklist
 }
 
