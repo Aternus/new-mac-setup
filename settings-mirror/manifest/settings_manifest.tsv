@@ -1,5 +1,5 @@
 # TYPE	SCOPE	KEY	DESCRIPTION
-# Supported TYPE values: DEFAULTS, DEFAULTS_CURRENT_HOST, SYSTEM
+# Supported TYPE values: DEFAULTS, DEFAULTS_KEYPATH, DEFAULTS_CURRENT_HOST, DEFAULTS_CURRENT_HOST_KEYPATH, SYSTEM
 
 # Global UI and typing behavior
 DEFAULTS	NSGlobalDomain	AppleInterfaceStyle	System appearance (Light/Dark)
@@ -52,6 +52,12 @@ DEFAULTS_CURRENT_HOST	NSGlobalDomain	com.apple.mouse.scaling	Mouse tracking spee
 DEFAULTS_CURRENT_HOST	NSGlobalDomain	com.apple.scrollwheel.scaling	Scroll wheel speed
 DEFAULTS_CURRENT_HOST	NSGlobalDomain	com.apple.mouse.tapBehavior	Tap to click behavior (mouse)
 DEFAULTS_CURRENT_HOST	NSGlobalDomain	com.apple.trackpad.enableSecondaryClick	Secondary click behavior
+
+# Keyboard shortcuts and remappings
+DEFAULTS	NSGlobalDomain	NSUserKeyEquivalents	Global custom app shortcuts
+DEFAULTS	com.apple.HIToolbox	AppleModifierMapping	Keyboard modifier remappings
+DEFAULTS	com.apple.HIToolbox	AppleEnabledInputSources	Enabled input sources (language/keyboard list)
+DEFAULTS	com.apple.HIToolbox	AppleSelectedInputSources	Selected input source set
 
 # Finder
 DEFAULTS	com.apple.finder	AppleShowAllFiles	Show hidden files

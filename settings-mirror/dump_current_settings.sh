@@ -6,8 +6,10 @@ MODULE_DIR="$SCRIPT_DIR"
 COMMON_FILE="$MODULE_DIR/lib/common.sh"
 
 MANIFEST_FILE="${MANIFEST_FILE:-$MODULE_DIR/manifest/settings_manifest.tsv}"
+KEYBOARD_SHORTCUT_IDS_FILE="${KEYBOARD_SHORTCUT_IDS_FILE:-$MODULE_DIR/manifest/keyboard_shortcut_ids.txt}"
 OUTPUT_FILE="${1:-$MODULE_DIR/dumps/current_laptop_settings_dump.tsv}"
 VERBOSE_MISSING="${VERBOSE_MISSING:-0}"
+SYMBOLIC_HOTKEY_ID_FILTER=""
 
 if [[ ! -f "$COMMON_FILE" ]]; then
   printf 'Common helper file not found: %s\n' "$COMMON_FILE" >&2
@@ -50,8 +52,26 @@ capture_setting() {
       return 1
     fi
     ;;
+  DEFAULTS_KEYPATH)
+    if ! value_json="$(read_defaults_keypath_json "regular" "$scope" "$key")"; then
+      if [[ "$VERBOSE_MISSING" == "1" ]]; then
+        printf '%s\n' "$on_missing_message" >&2
+      fi
+      missing_count=$((missing_count + 1))
+      return 1
+    fi
+    ;;
   DEFAULTS_CURRENT_HOST)
     if ! value_json="$(read_defaults_json "current_host" "$scope" "$key")"; then
+      if [[ "$VERBOSE_MISSING" == "1" ]]; then
+        printf '%s\n' "$on_missing_message" >&2
+      fi
+      missing_count=$((missing_count + 1))
+      return 1
+    fi
+    ;;
+  DEFAULTS_CURRENT_HOST_KEYPATH)
+    if ! value_json="$(read_defaults_keypath_json "current_host" "$scope" "$key")"; then
       if [[ "$VERBOSE_MISSING" == "1" ]]; then
         printf '%s\n' "$on_missing_message" >&2
       fi
@@ -113,6 +133,111 @@ list_domain_keys() {
 
   plutil -p "$tmp" 2>/dev/null | sed -n 's/^  "\([^"]*\)" =>.*/\1/p'
   rm -f "$tmp"
+}
+
+list_defaults_domains() {
+  defaults domains 2>/dev/null | tr ',' '\n' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | awk 'NF > 0' | sort -u
+}
+
+load_symbolic_hotkey_id_filter() {
+  local line
+  local id
+
+  SYMBOLIC_HOTKEY_ID_FILTER=""
+  [[ -f "$KEYBOARD_SHORTCUT_IDS_FILE" ]] || return 0
+
+  while IFS= read -r line; do
+    line="${line%%#*}"
+    line="$(printf '%s' "$line" | tr -d '[:space:]')"
+    [[ -z "$line" ]] && continue
+    if [[ "$line" =~ ^[0-9]+$ ]]; then
+      id="$line"
+      SYMBOLIC_HOTKEY_ID_FILTER="${SYMBOLIC_HOTKEY_ID_FILTER},${id}"
+    fi
+  done <"$KEYBOARD_SHORTCUT_IDS_FILE"
+
+  if [[ -n "$SYMBOLIC_HOTKEY_ID_FILTER" ]]; then
+    SYMBOLIC_HOTKEY_ID_FILTER="${SYMBOLIC_HOTKEY_ID_FILTER},"
+  fi
+}
+
+is_symbolic_hotkey_id_allowed() {
+  local id="$1"
+  [[ -z "$SYMBOLIC_HOTKEY_ID_FILTER" ]] && return 0
+  [[ "$SYMBOLIC_HOTKEY_ID_FILTER" == *",$id,"* ]]
+}
+
+list_symbolic_hotkey_ids() {
+  local tmp
+  local hotkeys_json
+
+  tmp="$(mktemp)"
+  if ! defaults export com.apple.symbolichotkeys "$tmp" >/dev/null 2>&1; then
+    rm -f "$tmp"
+    return 0
+  fi
+
+  hotkeys_json="$(plutil -extract AppleSymbolicHotKeys json -o - "$tmp" 2>/dev/null || true)"
+  rm -f "$tmp"
+  [[ -n "$hotkeys_json" ]] || return 0
+
+  printf '%s' "$hotkeys_json" |
+    tr -d '\n' |
+    grep -Eo '"[0-9]+"\s*:' |
+    sed -E 's/"([0-9]+)".*/\1/' |
+    sort -n -u || true
+}
+
+capture_keyboard_shortcut_settings() {
+  local key
+  local domain
+  local hotkey_id
+
+  while IFS= read -r hotkey_id; do
+    [[ -z "$hotkey_id" ]] && continue
+    if ! is_symbolic_hotkey_id_allowed "$hotkey_id"; then
+      continue
+    fi
+    capture_setting \
+      "DEFAULTS_KEYPATH" \
+      "com.apple.symbolichotkeys" \
+      "AppleSymbolicHotKeys.${hotkey_id}" \
+      "Skipping missing keyboard shortcut key: com.apple.symbolichotkeys AppleSymbolicHotKeys.${hotkey_id}" || true
+  done < <(list_symbolic_hotkey_ids)
+
+  capture_setting \
+    "DEFAULTS" \
+    "NSGlobalDomain" \
+    "NSUserKeyEquivalents" \
+    "Skipping missing keyboard shortcut key: NSGlobalDomain NSUserKeyEquivalents" || true
+
+  capture_setting \
+    "DEFAULTS" \
+    "com.apple.HIToolbox" \
+    "AppleModifierMapping" \
+    "Skipping missing keyboard shortcut key: com.apple.HIToolbox AppleModifierMapping" || true
+
+  while IFS= read -r key; do
+    [[ -z "$key" ]] && continue
+    case "$key" in
+    com.apple.keyboard.modifiermapping.*)
+      capture_setting \
+        "DEFAULTS" \
+        "NSGlobalDomain" \
+        "$key" \
+        "Skipping missing keyboard shortcut key: NSGlobalDomain $key" || true
+      ;;
+    esac
+  done < <(list_domain_keys "regular" "NSGlobalDomain")
+
+  while IFS= read -r domain; do
+    [[ -z "$domain" ]] && continue
+    capture_setting \
+      "DEFAULTS" \
+      "$domain" \
+      "NSUserKeyEquivalents" \
+      "Skipping missing app shortcut key: ${domain} NSUserKeyEquivalents" || true
+  done < <(list_defaults_domains)
 }
 
 capture_menu_bar_settings() {
@@ -210,7 +335,7 @@ capture_finder_settings() {
     esac
 
     case "$key" in
-    Sidebar* | SidebariCloudDriveSectionDisclosedState | SidebarShowingiCloudDesktop | SidebarShowingSignedIntoiCloud | ShowSidebar | ShowRecentTags | FavoriteTagNames | FK_*Sidebar* | FK_SidebarWidth | FK_SidebarWidth2 | FXSidebar* | FX*ViewSettings* | *ViewSettings | StandardViewSettings | DesktopViewSettings | ComputerViewSettings | NetworkViewSettings | ICloudViewSettings | SmartSharedSearchViewSettings | SearchViewSettings | SearchRecentsViewSettings | RecentsArrangeGroupViewBy | ShowHardDrivesOnDesktop | ShowExternalHardDrivesOnDesktop | ShowMountedServersOnDesktop | ShowRemovableMediaOnDesktop | ShowPathbar | ShowStatusBar | _FXSortFoldersFirst | FXPreferredViewStyle | FXPreferredSearchViewStyle | FXDefaultSearchScope | AppleShowAllFiles | AppleShowAllExtensions | CreateDesktop | WarnOnEmptyTrash | FXEnableExtensionChangeWarning)
+    Sidebar* | ShowRecentTags | FavoriteTagNames | FK_*Sidebar* | FXSidebar* | *ViewSettings | RecentsArrangeGroupViewBy | ShowHardDrivesOnDesktop | ShowExternalHardDrivesOnDesktop | ShowMountedServersOnDesktop | ShowRemovableMediaOnDesktop | ShowPathbar | ShowStatusBar | _FXSortFoldersFirst | FXPreferredViewStyle | FXPreferredSearchViewStyle | FXDefaultSearchScope | AppleShowAllFiles | AppleShowAllExtensions | CreateDesktop | WarnOnEmptyTrash | FXEnableExtensionChangeWarning)
       capture_setting \
         "DEFAULTS" \
         "com.apple.finder" \
@@ -221,17 +346,25 @@ capture_finder_settings() {
   done < <(list_domain_keys "regular" "com.apple.finder")
 }
 
+load_symbolic_hotkey_id_filter
+
 while IFS=$'\t' read -r setting_type scope key _description; do
   [[ -z "$setting_type" || "$setting_type" == \#* ]] && continue
   capture_setting "$setting_type" "$scope" "$key" "Skipping missing defaults key: $scope $key" || true
 done <"$MANIFEST_FILE"
 
+capture_keyboard_shortcut_settings
 capture_finder_settings
 capture_menu_bar_settings
 
 printf 'Wrote sanitized settings dump: %s\n' "$OUTPUT_FILE"
 printf 'Captured: %d\n' "$captured_count"
 printf 'Skipped: %d\n' "$missing_count"
+if [[ -n "$SYMBOLIC_HOTKEY_ID_FILTER" ]]; then
+  filter_display="${SYMBOLIC_HOTKEY_ID_FILTER#,}"
+  filter_display="${filter_display%,}"
+  printf 'Keyboard shortcut filter: %s\n' "$filter_display"
+fi
 if [[ "$VERBOSE_MISSING" != "1" ]]; then
   printf 'Tip: run with VERBOSE_MISSING=1 to print every skipped key.\n'
 fi

@@ -128,6 +128,87 @@ read_defaults_json() {
   esac
 }
 
+read_defaults_keypath_json() {
+  local read_mode="$1"
+  local domain="$2"
+  local keypath="$3"
+  local defaults_cmd=(defaults)
+  local type_name
+  local value_json
+  local value_base64
+  local tmp
+
+  if [[ "$read_mode" == "current_host" ]]; then
+    defaults_cmd=(defaults -currentHost)
+  fi
+
+  tmp="$(mktemp)"
+  if ! "${defaults_cmd[@]}" export "$domain" "$tmp" >/dev/null 2>&1; then
+    rm -f "$tmp"
+    return 1
+  fi
+
+  type_name="$(plutil -type "$keypath" "$tmp" 2>/dev/null || true)"
+  if [[ -z "$type_name" ]]; then
+    rm -f "$tmp"
+    return 1
+  fi
+
+  case "$type_name" in
+  bool)
+    if ! value_json="$(plutil -extract "$keypath" raw -o - "$tmp" 2>/dev/null)"; then
+      rm -f "$tmp"
+      return 1
+    fi
+    rm -f "$tmp"
+    case "$(printf '%s' "$value_json" | tr '[:upper:]' '[:lower:]')" in
+    1 | true | yes)
+      printf 'true'
+      ;;
+    *)
+      printf 'false'
+      ;;
+    esac
+    ;;
+  integer | real)
+    if ! value_json="$(plutil -extract "$keypath" raw -o - "$tmp" 2>/dev/null)"; then
+      rm -f "$tmp"
+      return 1
+    fi
+    rm -f "$tmp"
+    printf '%s' "$value_json"
+    ;;
+  string)
+    if ! value_json="$(plutil -extract "$keypath" raw -o - "$tmp" 2>/dev/null)"; then
+      rm -f "$tmp"
+      return 1
+    fi
+    rm -f "$tmp"
+    json_escape_string "$value_json"
+    ;;
+  array | dictionary)
+    if ! value_json="$(plutil -extract "$keypath" json -o - "$tmp" 2>/dev/null)"; then
+      rm -f "$tmp"
+      return 1
+    fi
+    rm -f "$tmp"
+    printf '%s' "$value_json"
+    ;;
+  data)
+    if ! value_base64="$(plutil -extract "$keypath" raw -o - "$tmp" 2>/dev/null)"; then
+      rm -f "$tmp"
+      return 1
+    fi
+    rm -f "$tmp"
+    json_escape_string "__SM_DATA_BASE64__:${value_base64}"
+    ;;
+  *)
+    rm -f "$tmp"
+    return 1
+    ;;
+  esac
+}
+
 read_timezone_name() {
   local timezone
   timezone="$(systemsetup -gettimezone 2>/dev/null | sed -n 's/^Time Zone: //p' | head -n 1)"
@@ -191,6 +272,49 @@ apply_defaults_json() {
   rm -f "$tmp"
 
   if ! written_json="$(read_defaults_json "$write_mode" "$domain" "$key")"; then
+    return 1
+  fi
+
+  [[ "$written_json" == "$desired_json" ]]
+}
+
+apply_defaults_keypath_json() {
+  local write_mode="$1"
+  local domain="$2"
+  local keypath="$3"
+  local desired_json="$4"
+  local defaults_cmd=(defaults)
+  local data_base64
+  local written_json
+  local tmp
+
+  if [[ "$write_mode" == "current_host" ]]; then
+    defaults_cmd=(defaults -currentHost)
+  fi
+
+  tmp="$(mktemp)"
+  if ! "${defaults_cmd[@]}" export "$domain" "$tmp" >/dev/null 2>&1; then
+    plutil -create xml1 "$tmp" >/dev/null
+  fi
+
+  if data_base64="$(extract_data_base64_from_json_string "$desired_json")"; then
+    if plutil -type "$keypath" "$tmp" >/dev/null 2>&1; then
+      plutil -replace "$keypath" -data "$data_base64" "$tmp" >/dev/null
+    else
+      plutil -insert "$keypath" -data "$data_base64" "$tmp" >/dev/null
+    fi
+  else
+    if plutil -type "$keypath" "$tmp" >/dev/null 2>&1; then
+      plutil -replace "$keypath" -json "$desired_json" "$tmp" >/dev/null
+    else
+      plutil -insert "$keypath" -json "$desired_json" "$tmp" >/dev/null
+    fi
+  fi
+
+  "${defaults_cmd[@]}" import "$domain" "$tmp" >/dev/null
+  rm -f "$tmp"
+
+  if ! written_json="$(read_defaults_keypath_json "$write_mode" "$domain" "$keypath")"; then
     return 1
   fi
 

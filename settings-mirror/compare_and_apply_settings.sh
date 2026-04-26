@@ -15,6 +15,21 @@ fi
 # shellcheck source=./lib/common.sh
 source "$COMMON_FILE"
 
+symbolic_hotkey_name() {
+  local id="$1"
+  case "$id" in
+  60)
+    printf 'Select the previous input source'
+    ;;
+  61)
+    printf 'Select next source in Input menu'
+    ;;
+  *)
+    printf 'Symbolic hotkey'
+    ;;
+  esac
+}
+
 prompt_confirm() {
   local prompt="$1"
   local response
@@ -58,12 +73,28 @@ while IFS=$'\t' read -r setting_type scope key desired_json_raw; do
       current_label="defaults ${scope} ${key}"
     fi
     ;;
+  DEFAULTS_KEYPATH)
+    if current_json="$(read_defaults_keypath_json "regular" "$scope" "$key")"; then
+      current_label="defaults keypath ${scope} ${key}"
+    else
+      current_json="<missing>"
+      current_label="defaults keypath ${scope} ${key}"
+    fi
+    ;;
   DEFAULTS_CURRENT_HOST)
     if current_json="$(read_defaults_json "current_host" "$scope" "$key")"; then
       current_label="defaults -currentHost ${scope} ${key}"
     else
       current_json="<missing>"
       current_label="defaults -currentHost ${scope} ${key}"
+    fi
+    ;;
+  DEFAULTS_CURRENT_HOST_KEYPATH)
+    if current_json="$(read_defaults_keypath_json "current_host" "$scope" "$key")"; then
+      current_label="defaults -currentHost keypath ${scope} ${key}"
+    else
+      current_json="<missing>"
+      current_label="defaults -currentHost keypath ${scope} ${key}"
     fi
     ;;
   SYSTEM)
@@ -93,6 +124,10 @@ while IFS=$'\t' read -r setting_type scope key desired_json_raw; do
   printf '\nDifference found: %s\n' "$current_label"
   printf '  current: %s\n' "$current_json"
   printf '  desired: %s\n' "$desired_json"
+  if [[ "$setting_type" == "DEFAULTS_KEYPATH" && "$scope" == "com.apple.symbolichotkeys" && "$key" == AppleSymbolicHotKeys.* ]]; then
+    shortcut_id="${key#AppleSymbolicHotKeys.}"
+    printf '  note: hotkey %s (ID %s).\n' "$(symbolic_hotkey_name "$shortcut_id")" "$shortcut_id"
+  fi
 
   if ! prompt_confirm "Apply this setting on this Mac?"; then
     continue
@@ -110,8 +145,32 @@ while IFS=$'\t' read -r setting_type scope key desired_json_raw; do
     continue
   fi
 
+  if [[ "$setting_type" == "DEFAULTS_KEYPATH" ]]; then
+    if apply_defaults_keypath_json "regular" "$scope" "$key" "$desired_json"; then
+      printf '  updated.\n'
+      applied_count=$((applied_count + 1))
+      applied_defaults=$((applied_defaults + 1))
+    else
+      printf '  failed to update.\n' >&2
+      failed_count=$((failed_count + 1))
+    fi
+    continue
+  fi
+
   if [[ "$setting_type" == "DEFAULTS_CURRENT_HOST" ]]; then
     if apply_defaults_json "current_host" "$scope" "$key" "$desired_json"; then
+      printf '  updated.\n'
+      applied_count=$((applied_count + 1))
+      applied_defaults=$((applied_defaults + 1))
+    else
+      printf '  failed to update.\n' >&2
+      failed_count=$((failed_count + 1))
+    fi
+    continue
+  fi
+
+  if [[ "$setting_type" == "DEFAULTS_CURRENT_HOST_KEYPATH" ]]; then
+    if apply_defaults_keypath_json "current_host" "$scope" "$key" "$desired_json"; then
       printf '  updated.\n'
       applied_count=$((applied_count + 1))
       applied_defaults=$((applied_defaults + 1))
