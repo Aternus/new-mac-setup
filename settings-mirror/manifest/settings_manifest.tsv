@@ -137,6 +137,7 @@ DEFAULTS	com.apple.widgets	ShowAddSheetOnboardingBanner	Widget add-sheet onboard
 # because it stores binary widget instance payloads (personalized/content-bearing).
 
 # Menu bar and Control Center
+DEFAULTS_CURRENT_HOST	com.apple.Spotlight	MenuItemHidden	Hide Spotlight menu bar item
 DEFAULTS	com.apple.menuextra.clock	Show24Hour	Clock 24-hour format
 DEFAULTS	com.apple.menuextra.clock	ShowDate	Clock date visibility
 DEFAULTS	com.apple.menuextra.clock	ShowDayOfWeek	Clock day-of-week visibility

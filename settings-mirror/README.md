@@ -44,6 +44,10 @@ Notes:
 - The compare script prompts before each change and reads confirmations from `/dev/tty` (run it in an interactive terminal).
 - Timezone updates use `systemsetup` and may prompt for `sudo`.
 - Both regular defaults and `defaults -currentHost` keys are supported.
+- Spotlight menu bar visibility is mirrored via `defaults -currentHost` key `com.apple.Spotlight MenuItemHidden`.
+- Menu bar settings are exported dynamically from Control Center, Spotlight, menu clock, and SystemUIServer domains, including currentHost Control Center layout blobs.
+- Safety filter: `com.apple.controlcenter` currentHost key `IRServiceToken` is excluded.
+- Finder settings are exported dynamically with sidebar-first coverage (sidebar section state/visibility/width and related Finder view preferences), while recent/history/window-position keys are excluded.
 
 Widget and desktop composition coverage:
 - Included: Stage Manager widget visibility, desktop widget visibility toggles, and Finder desktop/icon composition dictionaries.

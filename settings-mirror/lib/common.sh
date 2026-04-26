@@ -37,6 +37,22 @@ plist_escape_keypath() {
   printf '%s' "$key"
 }
 
+extract_data_base64_from_json_string() {
+  local json_value="$1"
+  local decoded_value
+
+  decoded_value="$(json_unquote_string "$json_value")"
+  case "$decoded_value" in
+  __SM_DATA_BASE64__:*)
+    printf '%s' "${decoded_value#__SM_DATA_BASE64__:}"
+    return 0
+    ;;
+  *)
+    return 1
+    ;;
+  esac
+}
+
 read_defaults_json() {
   local read_mode="$1"
   local domain="$2"
@@ -44,6 +60,7 @@ read_defaults_json() {
   local type_line
   local type_name
   local raw_value
+  local escaped_key
   local defaults_cmd=(defaults)
 
   if [[ "$read_mode" == "current_host" ]]; then
@@ -89,6 +106,22 @@ read_defaults_json() {
     rm -f "$tmp"
     printf '%s' "$value_json"
     ;;
+  data)
+    local tmp
+    local value_base64
+    escaped_key="$(plist_escape_keypath "$key")"
+    tmp="$(mktemp)"
+    if ! "${defaults_cmd[@]}" export "$domain" "$tmp" >/dev/null 2>&1; then
+      rm -f "$tmp"
+      return 1
+    fi
+    if ! value_base64="$(plutil -extract "$escaped_key" raw -o - "$tmp" 2>/dev/null)"; then
+      rm -f "$tmp"
+      return 1
+    fi
+    rm -f "$tmp"
+    json_escape_string "__SM_DATA_BASE64__:${value_base64}"
+    ;;
   *)
     return 1
     ;;
@@ -125,6 +158,7 @@ apply_defaults_json() {
   local desired_json="$4"
   local defaults_cmd=(defaults)
   local escaped_key
+  local data_base64
   local written_json
   local tmp
 
@@ -139,10 +173,18 @@ apply_defaults_json() {
     plutil -create xml1 "$tmp" >/dev/null
   fi
 
-  if plutil -type "$escaped_key" "$tmp" >/dev/null 2>&1; then
-    plutil -replace "$escaped_key" -json "$desired_json" "$tmp" >/dev/null
+  if data_base64="$(extract_data_base64_from_json_string "$desired_json")"; then
+    if plutil -type "$escaped_key" "$tmp" >/dev/null 2>&1; then
+      plutil -replace "$escaped_key" -data "$data_base64" "$tmp" >/dev/null
+    else
+      plutil -insert "$escaped_key" -data "$data_base64" "$tmp" >/dev/null
+    fi
   else
-    plutil -insert "$escaped_key" -json "$desired_json" "$tmp" >/dev/null
+    if plutil -type "$escaped_key" "$tmp" >/dev/null 2>&1; then
+      plutil -replace "$escaped_key" -json "$desired_json" "$tmp" >/dev/null
+    else
+      plutil -insert "$escaped_key" -json "$desired_json" "$tmp" >/dev/null
+    fi
   fi
 
   "${defaults_cmd[@]}" import "$domain" "$tmp" >/dev/null
