@@ -199,11 +199,12 @@ printf '  applied: %d\n' "$applied_count"
 printf '  failed: %d\n' "$failed_count"
 
 if ((applied_defaults > 0)); then
-  if prompt_confirm "Restart Finder, Dock, SystemUIServer, and ControlCenter now?"; then
+  if prompt_confirm "Restart Finder, Dock, SystemUIServer, ControlCenter, and cfprefsd now?"; then
     killall Finder >/dev/null 2>&1 || true
     killall Dock >/dev/null 2>&1 || true
     killall SystemUIServer >/dev/null 2>&1 || true
     killall ControlCenter >/dev/null 2>&1 || true
+    killall cfprefsd >/dev/null 2>&1 || true
     printf 'UI processes restarted.\n'
   else
     printf 'UI process restart skipped; some settings may need logout/restart.\n'

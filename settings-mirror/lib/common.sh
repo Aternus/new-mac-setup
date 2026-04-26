@@ -292,9 +292,48 @@ apply_defaults_keypath_json() {
     defaults_cmd=(defaults -currentHost)
   fi
 
+  ensure_keypath_parent_dicts() {
+    local plist_file="$1"
+    local nested_keypath="$2"
+    local parent_path=""
+    local segment
+    local parent_type
+    IFS='.' read -r -a _keypath_segments <<<"$nested_keypath"
+
+    if ((${#_keypath_segments[@]} < 2)); then
+      return 0
+    fi
+
+    for ((i = 0; i < ${#_keypath_segments[@]} - 1; i++)); do
+      segment="${_keypath_segments[$i]}"
+      if [[ -z "$parent_path" ]]; then
+        parent_path="$segment"
+      else
+        parent_path="${parent_path}.${segment}"
+      fi
+
+      parent_type="$(plutil -type "$parent_path" "$plist_file" 2>/dev/null || true)"
+      if [[ -z "$parent_type" ]]; then
+        if ! plutil -insert "$parent_path" -json '{}' "$plist_file" >/dev/null 2>&1; then
+          return 1
+        fi
+        continue
+      fi
+
+      if [[ "$parent_type" != "dictionary" ]]; then
+        return 1
+      fi
+    done
+  }
+
   tmp="$(mktemp)"
   if ! "${defaults_cmd[@]}" export "$domain" "$tmp" >/dev/null 2>&1; then
     plutil -create xml1 "$tmp" >/dev/null
+  fi
+
+  if ! ensure_keypath_parent_dicts "$tmp" "$keypath"; then
+    rm -f "$tmp"
+    return 1
   fi
 
   if data_base64="$(extract_data_base64_from_json_string "$desired_json")"; then
