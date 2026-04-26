@@ -168,11 +168,17 @@ is_symbolic_hotkey_id_allowed() {
 }
 
 list_symbolic_hotkey_ids() {
+  local read_mode="${1:-regular}"
   local tmp
   local hotkeys_json
+  local defaults_cmd=(defaults)
+
+  if [[ "$read_mode" == "current_host" ]]; then
+    defaults_cmd=(defaults -currentHost)
+  fi
 
   tmp="$(mktemp)"
-  if ! defaults export com.apple.symbolichotkeys "$tmp" >/dev/null 2>&1; then
+  if ! "${defaults_cmd[@]}" export com.apple.symbolichotkeys "$tmp" >/dev/null 2>&1; then
     rm -f "$tmp"
     return 0
   fi
@@ -203,7 +209,19 @@ capture_keyboard_shortcut_settings() {
       "com.apple.symbolichotkeys" \
       "AppleSymbolicHotKeys.${hotkey_id}" \
       "Skipping missing keyboard shortcut key: com.apple.symbolichotkeys AppleSymbolicHotKeys.${hotkey_id}" || true
-  done < <(list_symbolic_hotkey_ids)
+  done < <(list_symbolic_hotkey_ids regular)
+
+  while IFS= read -r hotkey_id; do
+    [[ -z "$hotkey_id" ]] && continue
+    if ! is_symbolic_hotkey_id_allowed "$hotkey_id"; then
+      continue
+    fi
+    capture_setting \
+      "DEFAULTS_CURRENT_HOST_KEYPATH" \
+      "com.apple.symbolichotkeys" \
+      "AppleSymbolicHotKeys.${hotkey_id}" \
+      "Skipping missing currentHost keyboard shortcut key: com.apple.symbolichotkeys AppleSymbolicHotKeys.${hotkey_id}" || true
+  done < <(list_symbolic_hotkey_ids current_host)
 
   capture_setting \
     "DEFAULTS" \

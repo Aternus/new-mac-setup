@@ -58,7 +58,7 @@ Notes:
 - Menu bar settings are exported dynamically from Control Center, Spotlight, menu clock, and SystemUIServer domains, including currentHost Control Center layout blobs.
 - Safety filter: `com.apple.controlcenter` currentHost key `IRServiceToken` is excluded.
 - Finder settings are exported dynamically with sidebar-first coverage (sidebar section state/visibility/width and related Finder view preferences), while recent/history/window-position keys are excluded.
-- Symbolic keyboard shortcuts are exported per-ID as `com.apple.symbolichotkeys AppleSymbolicHotKeys.<id>`, which allows granular sync control.
+- Symbolic keyboard shortcuts are exported per-ID as `com.apple.symbolichotkeys AppleSymbolicHotKeys.<id>` for both regular and `-currentHost` scopes, which allows granular sync control and host-override sync.
 - Keyboard shortcut granularity is controlled by what you export in the dump (`keyboard_shortcut_ids.txt`); compare/apply uses the dump as-is.
 - Input source switcher shortcuts are `AppleSymbolicHotKeys.60` (previous input source) and `AppleSymbolicHotKeys.61` (next source in Input menu).
 - Keyboard remaps and input-source list are synced via `com.apple.HIToolbox` (`AppleModifierMapping`, `AppleEnabledInputSources`, `AppleSelectedInputSources`).

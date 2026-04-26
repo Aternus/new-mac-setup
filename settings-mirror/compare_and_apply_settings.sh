@@ -124,7 +124,7 @@ while IFS=$'\t' read -r setting_type scope key desired_json_raw; do
   printf '\nDifference found: %s\n' "$current_label"
   printf '  current: %s\n' "$current_json"
   printf '  desired: %s\n' "$desired_json"
-  if [[ "$setting_type" == "DEFAULTS_KEYPATH" && "$scope" == "com.apple.symbolichotkeys" && "$key" == AppleSymbolicHotKeys.* ]]; then
+  if [[ ("$setting_type" == "DEFAULTS_KEYPATH" || "$setting_type" == "DEFAULTS_CURRENT_HOST_KEYPATH") && "$scope" == "com.apple.symbolichotkeys" && "$key" == AppleSymbolicHotKeys.* ]]; then
     shortcut_id="${key#AppleSymbolicHotKeys.}"
     printf '  note: hotkey %s (ID %s).\n' "$(symbolic_hotkey_name "$shortcut_id")" "$shortcut_id"
   fi

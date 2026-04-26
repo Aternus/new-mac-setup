@@ -1,0 +1,7 @@
+# Optional symbolic hotkey allowlist for settings dump.
+# One numeric ID per line from com.apple.symbolichotkeys.AppleSymbolicHotKeys.
+# Leave empty (or comments only) to export all symbolic hotkeys.
+#
+# Example: only sync input source switcher shortcuts
+# 60
+# 61
