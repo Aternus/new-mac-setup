@@ -30,6 +30,13 @@ json_unquote_string() {
   printf '%s' "$value"
 }
 
+plist_escape_keypath() {
+  local key="$1"
+  key="${key//\\/\\\\}"
+  key="${key//./\\.}"
+  printf '%s' "$key"
+}
+
 read_defaults_json() {
   local read_mode="$1"
   local domain="$2"
@@ -117,25 +124,35 @@ apply_defaults_json() {
   local key="$3"
   local desired_json="$4"
   local defaults_cmd=(defaults)
+  local escaped_key
+  local written_json
   local tmp
 
   if [[ "$write_mode" == "current_host" ]]; then
     defaults_cmd=(defaults -currentHost)
   fi
 
+  escaped_key="$(plist_escape_keypath "$key")"
+
   tmp="$(mktemp)"
   if ! "${defaults_cmd[@]}" export "$domain" "$tmp" >/dev/null 2>&1; then
     plutil -create xml1 "$tmp" >/dev/null
   fi
 
-  if plutil -type "$key" "$tmp" >/dev/null 2>&1; then
-    plutil -replace "$key" -json "$desired_json" "$tmp" >/dev/null
+  if plutil -type "$escaped_key" "$tmp" >/dev/null 2>&1; then
+    plutil -replace "$escaped_key" -json "$desired_json" "$tmp" >/dev/null
   else
-    plutil -insert "$key" -json "$desired_json" "$tmp" >/dev/null
+    plutil -insert "$escaped_key" -json "$desired_json" "$tmp" >/dev/null
   fi
 
   "${defaults_cmd[@]}" import "$domain" "$tmp" >/dev/null
   rm -f "$tmp"
+
+  if ! written_json="$(read_defaults_json "$write_mode" "$domain" "$key")"; then
+    return 1
+  fi
+
+  [[ "$written_json" == "$desired_json" ]]
 }
 
 apply_timezone() {
