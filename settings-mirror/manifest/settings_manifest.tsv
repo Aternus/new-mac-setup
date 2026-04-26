@@ -1,0 +1,267 @@
+# TYPE	SCOPE	KEY	DESCRIPTION
+# Supported TYPE values: DEFAULTS, DEFAULTS_CURRENT_HOST, SYSTEM
+
+# Global UI and typing behavior
+DEFAULTS	NSGlobalDomain	AppleInterfaceStyle	System appearance (Light/Dark)
+DEFAULTS	NSGlobalDomain	AppleShowAllExtensions	Show all filename extensions
+DEFAULTS	NSGlobalDomain	AppleShowScrollBars	Scroll bar visibility behavior
+DEFAULTS	NSGlobalDomain	AppleKeyboardUIMode	Keyboard full access mode
+DEFAULTS	NSGlobalDomain	KeyRepeat	Key repeat speed
+DEFAULTS	NSGlobalDomain	InitialKeyRepeat	Delay before key repeat
+DEFAULTS	NSGlobalDomain	ApplePressAndHoldEnabled	Press-and-hold behavior
+DEFAULTS	NSGlobalDomain	NSAutomaticCapitalizationEnabled	Automatic capitalization
+DEFAULTS	NSGlobalDomain	NSAutomaticDashSubstitutionEnabled	Smart dashes
+DEFAULTS	NSGlobalDomain	NSAutomaticPeriodSubstitutionEnabled	Double-space period
+DEFAULTS	NSGlobalDomain	NSAutomaticQuoteSubstitutionEnabled	Smart quotes
+DEFAULTS	NSGlobalDomain	NSAutomaticSpellingCorrectionEnabled	Automatic spelling correction
+DEFAULTS	NSGlobalDomain	WebAutomaticSpellingCorrectionEnabled	Web spelling correction
+DEFAULTS	NSGlobalDomain	NSAutomaticInlinePredictionEnabled	Inline predictions
+DEFAULTS	NSGlobalDomain	AppleMeasurementUnits	Measurement units
+DEFAULTS	NSGlobalDomain	AppleMetricUnits	Use metric units
+DEFAULTS	NSGlobalDomain	AppleTemperatureUnit	Temperature unit
+DEFAULTS	NSGlobalDomain	AppleLanguages	Preferred languages
+DEFAULTS	NSGlobalDomain	AppleLocale	Locale
+DEFAULTS	NSGlobalDomain	AppleICUForce24HourTime	Use 24-hour time
+DEFAULTS	NSGlobalDomain	AppleICUDateFormatStrings	Date format map
+DEFAULTS	NSGlobalDomain	AppleWindowTabbingMode	Window tabbing preference
+DEFAULTS	NSGlobalDomain	AppleScrollerPagingBehavior	Scroll-to-click behavior
+DEFAULTS	NSGlobalDomain	AppleEnableSwipeNavigateWithScrolls	Swipe navigation with scroll gestures
+DEFAULTS	NSGlobalDomain	AppleEnableMouseSwipeNavigateWithScrolls	Mouse swipe navigation
+DEFAULTS	NSGlobalDomain	AppleMiniaturizeOnDoubleClick	Double-click title bar action
+DEFAULTS	NSGlobalDomain	AppleReduceDesktopTinting	Reduce desktop tinting
+DEFAULTS	NSGlobalDomain	com.apple.keyboard.fnState	Function keys mode
+DEFAULTS	NSGlobalDomain	com.apple.trackpad.forceClick	Force click and haptic feedback
+DEFAULTS	NSGlobalDomain	com.apple.sound.beep.feedback	Feedback on volume change
+DEFAULTS	NSGlobalDomain	com.apple.sound.beep.volume	Alert volume
+DEFAULTS	NSGlobalDomain	com.apple.sound.beep.flash	Flash screen on alert sound
+DEFAULTS	NSGlobalDomain	com.apple.springing.enabled	Spring-loaded folders enabled
+DEFAULTS	NSGlobalDomain	com.apple.springing.delay	Spring-loaded folders delay
+DEFAULTS	NSGlobalDomain	NSDocumentSaveNewDocumentsToCloud	Save new docs to iCloud by default
+DEFAULTS	NSGlobalDomain	PMPrintingExpandedStateForPrint	Expanded print panel state
+DEFAULTS	NSGlobalDomain	PMPrintingExpandedStateForPrint2	Expanded print panel state (v2)
+DEFAULTS	NSGlobalDomain	NSNavPanelExpandedStateForSaveMode	Expanded save panel state
+DEFAULTS	NSGlobalDomain	NSNavPanelExpandedStateForSaveMode2	Expanded save panel state (v2)
+DEFAULTS	NSGlobalDomain	NSQuitAlwaysKeepsWindows	Resume windows when reopening apps
+DEFAULTS	NSGlobalDomain	NSDisableAutomaticTermination	Disable automatic app termination
+DEFAULTS	NSGlobalDomain	NSWindowShouldDragOnGesture	Three-finger window drag behavior
+DEFAULTS	NSGlobalDomain	NSRecentDocumentsLimit	Recent documents limit
+
+# Per-host input scaling and gesture tuning
+DEFAULTS_CURRENT_HOST	NSGlobalDomain	com.apple.trackpad.scaling	Trackpad tracking speed
+DEFAULTS_CURRENT_HOST	NSGlobalDomain	com.apple.mouse.scaling	Mouse tracking speed
+DEFAULTS_CURRENT_HOST	NSGlobalDomain	com.apple.scrollwheel.scaling	Scroll wheel speed
+DEFAULTS_CURRENT_HOST	NSGlobalDomain	com.apple.mouse.tapBehavior	Tap to click behavior (mouse)
+DEFAULTS_CURRENT_HOST	NSGlobalDomain	com.apple.trackpad.enableSecondaryClick	Secondary click behavior
+
+# Finder
+DEFAULTS	com.apple.finder	AppleShowAllFiles	Show hidden files
+DEFAULTS	com.apple.finder	AppleShowAllExtensions	Show all file extensions in Finder
+DEFAULTS	com.apple.finder	ShowPathbar	Show path bar
+DEFAULTS	com.apple.finder	ShowStatusBar	Show status bar
+DEFAULTS	com.apple.finder	FXPreferredViewStyle	Preferred Finder view style
+DEFAULTS	com.apple.finder	FXPreferredSearchViewStyle	Preferred Finder search view style
+DEFAULTS	com.apple.finder	FXDefaultSearchScope	Default Finder search scope
+DEFAULTS	com.apple.finder	_FXSortFoldersFirst	Sort folders first
+DEFAULTS	com.apple.finder	FXEnableExtensionChangeWarning	Warn before changing extension
+DEFAULTS	com.apple.finder	FXRemoveOldTrashItems	Auto-remove items from Trash
+DEFAULTS	com.apple.finder	WarnOnEmptyTrash	Warn before emptying Trash
+DEFAULTS	com.apple.finder	QLEnableTextSelection	Enable text selection in Quick Look
+DEFAULTS	com.apple.finder	DisableAllAnimations	Disable Finder animations
+DEFAULTS	com.apple.finder	CreateDesktop	Show desktop icons
+DEFAULTS	com.apple.finder	ShowHardDrivesOnDesktop	Show hard drives on desktop
+DEFAULTS	com.apple.finder	ShowExternalHardDrivesOnDesktop	Show external drives on desktop
+DEFAULTS	com.apple.finder	ShowMountedServersOnDesktop	Show mounted servers on desktop
+DEFAULTS	com.apple.finder	ShowRemovableMediaOnDesktop	Show removable media on desktop
+DEFAULTS	com.apple.finder	ShowSidebar	Show Finder sidebar
+DEFAULTS	com.apple.finder	NewWindowTarget	New Finder window target
+DEFAULTS	com.apple.finder	NewWindowTargetPath	New Finder window target path
+DEFAULTS	com.apple.finder	DesktopViewSettings	Desktop icon view composition
+DEFAULTS	com.apple.finder	StandardViewSettings	Finder standard view composition
+DEFAULTS	com.apple.finder	FK_DefaultIconViewSettings	Finder default icon composition
+DEFAULTS	com.apple.finder	FK_StandardViewSettings	Finder standard view defaults
+
+# Dock, Mission Control, Hot Corners
+DEFAULTS	com.apple.dock	autohide	Automatically hide Dock
+DEFAULTS	com.apple.dock	tilesize	Dock icon size
+DEFAULTS	com.apple.dock	show-recents	Show recent apps in Dock
+DEFAULTS	com.apple.dock	minimize-to-application	Minimize to application icon
+DEFAULTS	com.apple.dock	mru-spaces	Automatically rearrange Spaces
+DEFAULTS	com.apple.dock	orientation	Dock position
+DEFAULTS	com.apple.dock	mineffect	Minimize effect
+DEFAULTS	com.apple.dock	autohide-delay	Dock autohide delay
+DEFAULTS	com.apple.dock	autohide-time-modifier	Dock autohide animation speed
+DEFAULTS	com.apple.dock	largesize	Dock magnification size
+DEFAULTS	com.apple.dock	magnification	Dock magnification enabled
+DEFAULTS	com.apple.dock	show-process-indicators	Show app indicator lights
+DEFAULTS	com.apple.dock	showhidden	Dim hidden app icons
+DEFAULTS	com.apple.dock	launchanim	Animate app launch in Dock
+DEFAULTS	com.apple.dock	static-only	Show only open apps
+DEFAULTS	com.apple.dock	expose-animation-duration	Mission Control animation duration
+DEFAULTS	com.apple.dock	expose-group-apps	Group windows by application
+DEFAULTS	com.apple.dock	dashboard-in-overlay	Dashboard overlay mode
+DEFAULTS	com.apple.dock	wvous-tl-corner	Hot corner top-left action
+DEFAULTS	com.apple.dock	wvous-tl-modifier	Hot corner top-left modifier
+DEFAULTS	com.apple.dock	wvous-tr-corner	Hot corner top-right action
+DEFAULTS	com.apple.dock	wvous-tr-modifier	Hot corner top-right modifier
+DEFAULTS	com.apple.dock	wvous-bl-corner	Hot corner bottom-left action
+DEFAULTS	com.apple.dock	wvous-bl-modifier	Hot corner bottom-left modifier
+DEFAULTS	com.apple.dock	wvous-br-corner	Hot corner bottom-right action
+DEFAULTS	com.apple.dock	wvous-br-modifier	Hot corner bottom-right modifier
+
+# Screenshots and capture
+DEFAULTS	com.apple.screencapture	location	Screenshot save location
+DEFAULTS	com.apple.screencapture	type	Screenshot format
+DEFAULTS	com.apple.screencapture	disable-shadow	Disable screenshot shadow
+DEFAULTS	com.apple.screencapture	show-thumbnail	Show floating thumbnail
+DEFAULTS	com.apple.screencapture	include-date	Include date in filenames
+DEFAULTS	com.apple.screencapture	target	Screenshot destination target
+DEFAULTS	com.apple.screencapture	showsCursor	Include cursor in captures
+DEFAULTS	com.apple.screencapture	showsClicks	Show mouse clicks in captures
+DEFAULTS	com.apple.screencapture	name	Screenshot base filename
+DEFAULTS	com.apple.screencapture	style	Screenshot style settings
+
+# Windowing and desktop behavior
+DEFAULTS	com.apple.WindowManager	AutoHide	Auto-hide desktop items in Stage Manager
+DEFAULTS	com.apple.WindowManager	HideDesktop	Click wallpaper to reveal desktop behavior
+DEFAULTS	com.apple.WindowManager	EnableStandardClickToShowDesktop	Click wallpaper behavior
+DEFAULTS	com.apple.WindowManager	EnableTiledWindowMargins	Tiled window margins
+DEFAULTS	com.apple.WindowManager	EnableTilingByEdgeDrag	Tile windows by edge drag
+DEFAULTS	com.apple.WindowManager	EnableTopTilingByEdgeDrag	Top edge tiling behavior
+DEFAULTS	com.apple.WindowManager	EnableTilingOptionAccelerator	Option key tiling accelerator
+DEFAULTS	com.apple.WindowManager	StageManagerHideWidgets	Hide widgets in Stage Manager
+DEFAULTS	com.apple.WindowManager	StandardHideWidgets	Hide widgets on desktop
+DEFAULTS	com.apple.WindowManager	AppWindowGroupingBehavior	Window grouping behavior
+DEFAULTS	com.apple.widgets	ShowAddSheetOnboardingBanner	Widget add-sheet onboarding banner state
+
+# NOTE: intentionally excluded com.apple.notificationcenterui.widgets
+# because it stores binary widget instance payloads (personalized/content-bearing).
+
+# Menu bar and Control Center
+DEFAULTS	com.apple.menuextra.clock	Show24Hour	Clock 24-hour format
+DEFAULTS	com.apple.menuextra.clock	ShowDate	Clock date visibility
+DEFAULTS	com.apple.menuextra.clock	ShowDayOfWeek	Clock day-of-week visibility
+DEFAULTS	com.apple.menuextra.clock	ShowDayOfMonth	Clock day-of-month visibility
+DEFAULTS	com.apple.menuextra.clock	ShowAMPM	Clock AM/PM visibility
+DEFAULTS	com.apple.menuextra.clock	FlashDateSeparators	Clock separator flash
+DEFAULTS	com.apple.menuextra.clock	IsAnalog	Analog clock style
+DEFAULTS	com.apple.menuextra.clock	DateFormat	Clock date/time format string
+DEFAULTS	com.apple.menuextra.clock	TimeAnnouncementsEnabled	Time announcements enabled
+DEFAULTS	com.apple.menuextra.clock	TimeAnnouncementsIntervalIdentifier	Time announcements interval
+DEFAULTS	com.apple.controlcenter	NSStatusItem Visible AirDrop	Menu bar visibility for AirDrop
+DEFAULTS	com.apple.controlcenter	NSStatusItem Visible Bluetooth	Menu bar visibility for Bluetooth
+DEFAULTS	com.apple.controlcenter	NSStatusItem Visible Display	Menu bar visibility for Display
+DEFAULTS	com.apple.controlcenter	NSStatusItem Visible FocusModes	Menu bar visibility for Focus
+DEFAULTS	com.apple.controlcenter	NSStatusItem Visible NowPlaying	Menu bar visibility for Now Playing
+DEFAULTS	com.apple.controlcenter	NSStatusItem Visible Sound	Menu bar visibility for Sound
+DEFAULTS	com.apple.controlcenter	NSStatusItem Visible StageManager	Menu bar visibility for Stage Manager
+DEFAULTS	com.apple.controlcenter	NSStatusItem Visible WiFi	Menu bar visibility for Wi-Fi
+DEFAULTS	com.apple.controlcenter	NSStatusItem VisibleCC Battery	Control Center visibility for Battery
+DEFAULTS	com.apple.controlcenter	NSStatusItem VisibleCC Clock	Control Center visibility for Clock
+DEFAULTS	com.apple.controlcenter	NSStatusItem VisibleCC UserSwitcher	Control Center visibility for User Switcher
+DEFAULTS	com.apple.controlcenter	NSStatusItem Preferred Position Battery	Menu bar position for Battery
+DEFAULTS	com.apple.controlcenter	NSStatusItem Preferred Position Bluetooth	Menu bar position for Bluetooth
+DEFAULTS	com.apple.controlcenter	NSStatusItem Preferred Position Display	Menu bar position for Display
+DEFAULTS	com.apple.controlcenter	NSStatusItem Preferred Position FocusModes	Menu bar position for Focus
+DEFAULTS	com.apple.controlcenter	NSStatusItem Preferred Position Sound	Menu bar position for Sound
+DEFAULTS	com.apple.controlcenter	NSStatusItem Preferred Position StageManager	Menu bar position for Stage Manager
+DEFAULTS	com.apple.controlcenter	NSStatusItem Preferred Position WiFi	Menu bar position for Wi-Fi
+DEFAULTS	com.apple.controlcenter	RemoteLiveActivitiesEnabled	Allow remote live activities
+
+# Accessibility and behavior toggles
+DEFAULTS	com.apple.universalaccess	reduceMotion	Reduce motion
+DEFAULTS	com.apple.universalaccess	reduceTransparency	Reduce transparency
+DEFAULTS	com.apple.universalaccess	increaseContrast	Increase contrast
+DEFAULTS	com.apple.universalaccess	differentiateWithoutColor	Differentiate without color
+DEFAULTS	com.apple.universalaccess	reduceLuminance	Dim flashing lights
+DEFAULTS	com.apple.universalaccess	mouseDriverCursorSize	Cursor size
+DEFAULTS	com.apple.universalaccess	closeViewHotkeysEnabled	Zoom shortcut enabled
+DEFAULTS	com.apple.universalaccess	hoverTextEnabled	Hover Text enabled
+DEFAULTS	com.apple.universalaccess	hoverTypingEnabled	Hover Typing enabled
+DEFAULTS	com.apple.universalaccess	stickyKey	Sticky keys
+DEFAULTS	com.apple.universalaccess	slowKey	Slow keys
+DEFAULTS	com.apple.universalaccess	useStickyKeysShortcutKeys	Sticky keys shortcut
+
+# Privacy, update, and service defaults
+DEFAULTS	com.apple.AdLib	allowApplePersonalizedAdvertising	Allow personalized ads
+DEFAULTS	com.apple.AdLib	allowIdentifierForAdvertising	Allow identifier for advertising
+DEFAULTS	com.apple.SoftwareUpdate	AutomaticCheckEnabled	Automatically check for updates
+DEFAULTS	com.apple.SoftwareUpdate	AutomaticDownload	Automatically download updates
+DEFAULTS	com.apple.SoftwareUpdate	ConfigDataInstall	Install system data files
+DEFAULTS	com.apple.SoftwareUpdate	CriticalUpdateInstall	Install security updates
+DEFAULTS	com.apple.SoftwareUpdate	AutomaticallyInstallMacOSUpdates	Install macOS updates automatically
+DEFAULTS	com.apple.TimeMachine	DoNotOfferNewDisksForBackup	Suppress new backup disk offers
+DEFAULTS	com.apple.desktopservices	DSDontWriteNetworkStores	Avoid writing .DS_Store on network volumes
+DEFAULTS	com.apple.desktopservices	DSDontWriteUSBStores	Avoid writing .DS_Store on USB volumes
+DEFAULTS	com.apple.LaunchServices	LSQuarantine	App quarantine on downloaded files
+DEFAULTS	com.apple.NetworkBrowser	BrowseAllInterfaces	Browse all network interfaces
+DEFAULTS	com.apple.ImageCapture	disableHotPlug	Disable Photos auto-launch on device plug-in
+DEFAULTS	com.apple.print.PrintingPrefs	Quit When Finished	Auto-quit printer app when jobs finish
+
+# Built-in trackpad and Bluetooth trackpad behavior
+DEFAULTS	com.apple.AppleMultitouchTrackpad	ActuateDetents	Haptic detents
+DEFAULTS	com.apple.AppleMultitouchTrackpad	Clicking	Tap to click
+DEFAULTS	com.apple.AppleMultitouchTrackpad	Dragging	Dragging enabled
+DEFAULTS	com.apple.AppleMultitouchTrackpad	DragLock	Drag lock enabled
+DEFAULTS	com.apple.AppleMultitouchTrackpad	FirstClickThreshold	Silent click pressure threshold
+DEFAULTS	com.apple.AppleMultitouchTrackpad	ForceSuppressed	Force click suppression
+DEFAULTS	com.apple.AppleMultitouchTrackpad	SecondClickThreshold	Second click pressure threshold
+DEFAULTS	com.apple.AppleMultitouchTrackpad	TrackpadCornerSecondaryClick	Secondary click corner
+DEFAULTS	com.apple.AppleMultitouchTrackpad	TrackpadHorizScroll	Horizontal scroll enabled
+DEFAULTS	com.apple.AppleMultitouchTrackpad	TrackpadMomentumScroll	Momentum scrolling
+DEFAULTS	com.apple.AppleMultitouchTrackpad	TrackpadPinch	Pinch zoom gesture
+DEFAULTS	com.apple.AppleMultitouchTrackpad	TrackpadRightClick	Secondary click enabled
+DEFAULTS	com.apple.AppleMultitouchTrackpad	TrackpadRotate	Rotate gesture
+DEFAULTS	com.apple.AppleMultitouchTrackpad	TrackpadScroll	Scroll gesture enabled
+DEFAULTS	com.apple.AppleMultitouchTrackpad	TrackpadThreeFingerDrag	Three-finger drag
+DEFAULTS	com.apple.AppleMultitouchTrackpad	TrackpadThreeFingerHorizSwipeGesture	Three-finger horizontal swipe
+DEFAULTS	com.apple.AppleMultitouchTrackpad	TrackpadThreeFingerTapGesture	Three-finger tap
+DEFAULTS	com.apple.AppleMultitouchTrackpad	TrackpadThreeFingerVertSwipeGesture	Three-finger vertical swipe
+DEFAULTS	com.apple.AppleMultitouchTrackpad	TrackpadFourFingerHorizSwipeGesture	Four-finger horizontal swipe
+DEFAULTS	com.apple.AppleMultitouchTrackpad	TrackpadFourFingerVertSwipeGesture	Four-finger vertical swipe
+DEFAULTS	com.apple.AppleMultitouchTrackpad	TrackpadFourFingerPinchGesture	Four-finger pinch
+DEFAULTS	com.apple.AppleMultitouchTrackpad	TrackpadFiveFingerPinchGesture	Five-finger pinch
+DEFAULTS	com.apple.AppleMultitouchTrackpad	TrackpadTwoFingerDoubleTapGesture	Two-finger double tap
+DEFAULTS	com.apple.AppleMultitouchTrackpad	TrackpadTwoFingerFromRightEdgeSwipeGesture	Two-finger edge swipe
+DEFAULTS	com.apple.AppleMultitouchTrackpad	USBMouseStopsTrackpad	Ignore trackpad when mouse is connected
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.trackpad	Clicking	Tap to click (Bluetooth trackpad)
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.trackpad	Dragging	Dragging enabled (Bluetooth trackpad)
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.trackpad	DragLock	Drag lock (Bluetooth trackpad)
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.trackpad	TrackpadCornerSecondaryClick	Secondary click corner (Bluetooth trackpad)
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.trackpad	TrackpadHorizScroll	Horizontal scroll (Bluetooth trackpad)
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.trackpad	TrackpadMomentumScroll	Momentum scrolling (Bluetooth trackpad)
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.trackpad	TrackpadPinch	Pinch zoom (Bluetooth trackpad)
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.trackpad	TrackpadRightClick	Secondary click (Bluetooth trackpad)
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.trackpad	TrackpadRotate	Rotate gesture (Bluetooth trackpad)
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.trackpad	TrackpadScroll	Scroll gesture (Bluetooth trackpad)
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.trackpad	TrackpadThreeFingerDrag	Three-finger drag (Bluetooth trackpad)
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.trackpad	TrackpadThreeFingerHorizSwipeGesture	Three-finger horizontal swipe (Bluetooth trackpad)
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.trackpad	TrackpadThreeFingerTapGesture	Three-finger tap (Bluetooth trackpad)
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.trackpad	TrackpadThreeFingerVertSwipeGesture	Three-finger vertical swipe (Bluetooth trackpad)
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.trackpad	TrackpadFourFingerHorizSwipeGesture	Four-finger horizontal swipe (Bluetooth trackpad)
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.trackpad	TrackpadFourFingerVertSwipeGesture	Four-finger vertical swipe (Bluetooth trackpad)
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.trackpad	TrackpadFourFingerPinchGesture	Four-finger pinch (Bluetooth trackpad)
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.trackpad	TrackpadFiveFingerPinchGesture	Five-finger pinch (Bluetooth trackpad)
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.trackpad	TrackpadTwoFingerDoubleTapGesture	Two-finger double tap (Bluetooth trackpad)
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.trackpad	TrackpadTwoFingerFromRightEdgeSwipeGesture	Two-finger edge swipe (Bluetooth trackpad)
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.trackpad	USBMouseStopsTrackpad	Ignore trackpad when mouse connected (Bluetooth)
+
+# Magic Mouse / Bluetooth mouse behavior
+DEFAULTS	com.apple.AppleMultitouchMouse	MouseButtonDivision	Mouse button division
+DEFAULTS	com.apple.AppleMultitouchMouse	MouseButtonMode	Mouse button mode
+DEFAULTS	com.apple.AppleMultitouchMouse	MouseHorizontalScroll	Horizontal scrolling
+DEFAULTS	com.apple.AppleMultitouchMouse	MouseMomentumScroll	Momentum scrolling
+DEFAULTS	com.apple.AppleMultitouchMouse	MouseOneFingerDoubleTapGesture	One-finger double tap gesture
+DEFAULTS	com.apple.AppleMultitouchMouse	MouseTwoFingerDoubleTapGesture	Two-finger double tap gesture
+DEFAULTS	com.apple.AppleMultitouchMouse	MouseTwoFingerHorizSwipeGesture	Two-finger horizontal swipe gesture
+DEFAULTS	com.apple.AppleMultitouchMouse	MouseVerticalScroll	Vertical scrolling
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.mouse	MouseButtonDivision	Mouse button division (Bluetooth mouse)
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.mouse	MouseButtonMode	Mouse button mode (Bluetooth mouse)
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.mouse	MouseHorizontalScroll	Horizontal scrolling (Bluetooth mouse)
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.mouse	MouseMomentumScroll	Momentum scrolling (Bluetooth mouse)
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.mouse	MouseOneFingerDoubleTapGesture	One-finger double tap gesture (Bluetooth mouse)
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.mouse	MouseTwoFingerDoubleTapGesture	Two-finger double tap gesture (Bluetooth mouse)
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.mouse	MouseTwoFingerHorizSwipeGesture	Two-finger horizontal swipe (Bluetooth mouse)
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.mouse	MouseVerticalScroll	Vertical scrolling (Bluetooth mouse)
+
+# System-level setting currently supported
+SYSTEM	systemsetup	timezone	System timezone

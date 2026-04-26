@@ -1,0 +1,172 @@
+# mac-settings-dump-v1
+# generated_at_utc=2026-04-26T19:58:29Z
+# host_os=26.3.1
+# format=TYPE<TAB>SCOPE<TAB>KEY<TAB>VALUE_JSON
+DEFAULTS	NSGlobalDomain	AppleInterfaceStyle	"Dark"
+DEFAULTS	NSGlobalDomain	AppleShowAllExtensions	true
+DEFAULTS	NSGlobalDomain	AppleKeyboardUIMode	3
+DEFAULTS	NSGlobalDomain	KeyRepeat	2
+DEFAULTS	NSGlobalDomain	InitialKeyRepeat	25
+DEFAULTS	NSGlobalDomain	NSAutomaticCapitalizationEnabled	false
+DEFAULTS	NSGlobalDomain	NSAutomaticDashSubstitutionEnabled	false
+DEFAULTS	NSGlobalDomain	NSAutomaticPeriodSubstitutionEnabled	false
+DEFAULTS	NSGlobalDomain	NSAutomaticQuoteSubstitutionEnabled	false
+DEFAULTS	NSGlobalDomain	NSAutomaticSpellingCorrectionEnabled	false
+DEFAULTS	NSGlobalDomain	WebAutomaticSpellingCorrectionEnabled	false
+DEFAULTS	NSGlobalDomain	NSAutomaticInlinePredictionEnabled	false
+DEFAULTS	NSGlobalDomain	AppleMeasurementUnits	"Centimeters"
+DEFAULTS	NSGlobalDomain	AppleMetricUnits	true
+DEFAULTS	NSGlobalDomain	AppleTemperatureUnit	"Celsius"
+DEFAULTS	NSGlobalDomain	AppleLanguages	["en-US","he-US","ru-US"]
+DEFAULTS	NSGlobalDomain	AppleLocale	"en_US"
+DEFAULTS	NSGlobalDomain	AppleICUForce24HourTime	true
+DEFAULTS	NSGlobalDomain	AppleICUDateFormatStrings	{"1":"y.MM.dd"}
+DEFAULTS	NSGlobalDomain	AppleWindowTabbingMode	"always"
+DEFAULTS	NSGlobalDomain	AppleScrollerPagingBehavior	true
+DEFAULTS	NSGlobalDomain	AppleEnableSwipeNavigateWithScrolls	false
+DEFAULTS	NSGlobalDomain	AppleMiniaturizeOnDoubleClick	false
+DEFAULTS	NSGlobalDomain	AppleReduceDesktopTinting	true
+DEFAULTS	NSGlobalDomain	com.apple.keyboard.fnState	true
+DEFAULTS	NSGlobalDomain	com.apple.trackpad.forceClick	true
+DEFAULTS	NSGlobalDomain	com.apple.sound.beep.feedback	1
+DEFAULTS	NSGlobalDomain	com.apple.sound.beep.flash	0
+DEFAULTS	NSGlobalDomain	com.apple.springing.enabled	true
+DEFAULTS	NSGlobalDomain	com.apple.springing.delay	0.5
+DEFAULTS	NSGlobalDomain	NSRecentDocumentsLimit	"5"
+DEFAULTS_CURRENT_HOST	NSGlobalDomain	com.apple.trackpad.enableSecondaryClick	true
+DEFAULTS	com.apple.finder	AppleShowAllFiles	true
+DEFAULTS	com.apple.finder	ShowPathbar	true
+DEFAULTS	com.apple.finder	FXPreferredViewStyle	"Nlsv"
+DEFAULTS	com.apple.finder	FXPreferredSearchViewStyle	"Nlsv"
+DEFAULTS	com.apple.finder	FXDefaultSearchScope	"SCcf"
+DEFAULTS	com.apple.finder	ShowHardDrivesOnDesktop	false
+DEFAULTS	com.apple.finder	ShowExternalHardDrivesOnDesktop	false
+DEFAULTS	com.apple.finder	ShowRemovableMediaOnDesktop	false
+DEFAULTS	com.apple.finder	ShowSidebar	true
+DEFAULTS	com.apple.finder	NewWindowTarget	"PfHm"
+DEFAULTS	com.apple.finder	DesktopViewSettings	{"IconViewSettings":{"backgroundColorBlue":"1","showIconPreview":"1","textSize":"12","backgroundColorRed":"1","backgroundType":"0","backgroundColorGreen":"1","gridOffsetX":"0","gridOffsetY":"0","showItemInfo":"0","viewOptionsVersion":"1","labelOnBottom":"1","arrangeBy":"none","iconSize":"64","gridSpacing":"54"}}
+DEFAULTS	com.apple.finder	StandardViewSettings	{"ListViewSettings":{"viewOptionsVersion":"1","showIconPreview":"1","columns":{"comments":{"visible":"0","ascending":"1","width":"300","index":"7"},"dateModified":{"visible":"1","ascending":"0","width":"181","index":"3"},"dateCreated":{"visible":"0","ascending":"0","width":"181","index":"4"},"size":{"visible":"1","ascending":"0","width":"97","index":"2"},"label":{"visible":"0","ascending":"1","width":"100","index":"5"},"kind":{"visible":"1","ascending":"0","width":"115","index":"1"},"version":{"visible":"0","ascending":"1","width":"75","index":"6"},"name":{"visible":"1","ascending":"1","width":"259","index":"0"},"dateLastOpened":{"visible":"0","ascending":"0","width":"196","index":"8"}},"calculateAllSizes":"0","textSize":"13","sortColumn":"kind","useRelativeDates":"1","iconSize":"16"},"SettingsType":"StandardViewSettings","ExtendedListViewSettingsV2":{"viewOptionsVersion":"1","showIconPreview":"1","columns":[{"width":"259","ascending":"1","identifier":"name","visible":"1"},{"width":"35","ascending":"0","identifier":"ubiquity","visible":"0"},{"width":"115","ascending":"0","identifier":"kind","visible":"1"},{"width":"97","ascending":"0","identifier":"size","visible":"1"},{"width":"181","ascending":"0","identifier":"dateModified","visible":"1"},{"width":"181","ascending":"0","identifier":"dateCreated","visible":"0"},{"width":"100","ascending":"1","identifier":"label","visible":"0"},{"width":"75","ascending":"1","identifier":"version","visible":"0"},{"width":"300","ascending":"1","identifier":"comments","visible":"0"},{"width":"196","ascending":"0","identifier":"dateLastOpened","visible":"0"},{"width":"200","ascending":"0","identifier":"shareOwner","visible":"0"},{"width":"200","ascending":"0","identifier":"shareLastEditor","visible":"0"},{"width":"181","ascending":"0","identifier":"dateAdded","visible":"0"},{"width":"210","ascending":"0","identifier":"invitationStatus","visible":"0"}],"calculateAllSizes":"0","textSize":"13","sortColumn":"kind","useRelativeDates":"1","iconSize":"16"},"IconViewSettings":{"backgroundColorBlue":"1","showIconPreview":"1","textSize":"12","backgroundColorRed":"1","backgroundType":"0","backgroundColorGreen":"1","gridOffsetX":"0","gridOffsetY":"0","showItemInfo":"0","viewOptionsVersion":"1","labelOnBottom":"1","arrangeBy":"none","iconSize":"64","gridSpacing":"54"},"GalleryViewSettings":{"arrangeBy":"name","iconSize":"48","showIconPreview":"1","viewOptionsVersion":"1"}}
+DEFAULTS	com.apple.finder	FK_DefaultIconViewSettings	{"backgroundColorBlue":"1","showIconPreview":"1","textSize":"12","backgroundColorRed":"1","backgroundType":"0","backgroundColorGreen":"1","gridOffsetX":"0","gridOffsetY":"0","showItemInfo":"0","viewOptionsVersion":"1","labelOnBottom":"1","arrangeBy":"name","iconSize":"64","gridSpacing":"54"}
+DEFAULTS	com.apple.finder	FK_StandardViewSettings	{"SettingsType":"FK_StandardViewSettings","ExtendedListViewSettingsV2":{"viewOptionsVersion":"1","showIconPreview":"1","columns":[{"width":"300","ascending":"1","identifier":"name","visible":"1"},{"width":"181","ascending":"0","identifier":"dateModified","visible":"1"},{"width":"181","ascending":"0","identifier":"dateCreated","visible":"0"},{"width":"97","ascending":"0","identifier":"size","visible":"1"},{"width":"115","ascending":"1","identifier":"kind","visible":"1"},{"width":"100","ascending":"1","identifier":"label","visible":"0"},{"width":"75","ascending":"1","identifier":"version","visible":"0"},{"width":"300","ascending":"1","identifier":"comments","visible":"0"},{"width":"200","ascending":"0","identifier":"dateLastOpened","visible":"0"},{"width":"200","ascending":"0","identifier":"shareOwner","visible":"0"},{"width":"200","ascending":"0","identifier":"shareLastEditor","visible":"0"}],"calculateAllSizes":"0","textSize":"13","sortColumn":"name","useRelativeDates":"1","iconSize":"16"},"ListViewSettings":{"viewOptionsVersion":"1","showIconPreview":"1","columns":{"comments":{"visible":"0","ascending":"1","width":"300","index":"7"},"dateModified":{"visible":"1","ascending":"0","width":"181","index":"1"},"dateCreated":{"visible":"0","ascending":"0","width":"181","index":"2"},"size":{"visible":"1","ascending":"0","width":"97","index":"3"},"label":{"visible":"0","ascending":"1","width":"100","index":"5"},"kind":{"visible":"1","ascending":"1","width":"115","index":"4"},"version":{"visible":"0","ascending":"1","width":"75","index":"6"},"name":{"visible":"1","ascending":"1","width":"300","index":"0"},"dateLastOpened":{"visible":"0","ascending":"0","width":"200","index":"8"}},"calculateAllSizes":"0","textSize":"13","sortColumn":"name","useRelativeDates":"1","iconSize":"16"},"IconViewSettings":{"backgroundColorBlue":"1","showIconPreview":"1","textSize":"12","backgroundColorRed":"1","backgroundType":"0","backgroundColorGreen":"1","gridOffsetX":"0","gridOffsetY":"0","showItemInfo":"0","viewOptionsVersion":"1","labelOnBottom":"1","arrangeBy":"none","iconSize":"64","gridSpacing":"54"}}
+DEFAULTS	com.apple.dock	autohide	true
+DEFAULTS	com.apple.dock	tilesize	56
+DEFAULTS	com.apple.dock	show-recents	false
+DEFAULTS	com.apple.dock	minimize-to-application	true
+DEFAULTS	com.apple.dock	mru-spaces	false
+DEFAULTS	com.apple.dock	mineffect	"scale"
+DEFAULTS	com.apple.dock	autohide-delay	0
+DEFAULTS	com.apple.dock	autohide-time-modifier	0
+DEFAULTS	com.apple.dock	wvous-br-corner	1
+DEFAULTS	com.apple.dock	wvous-br-modifier	0
+DEFAULTS	com.apple.screencapture	location	"{{HOME}}/Documents/"
+DEFAULTS	com.apple.screencapture	showsCursor	true
+DEFAULTS	com.apple.screencapture	showsClicks	true
+DEFAULTS	com.apple.screencapture	name	"Screen Shot"
+DEFAULTS	com.apple.screencapture	style	"window"
+DEFAULTS	com.apple.WindowManager	AutoHide	true
+DEFAULTS	com.apple.WindowManager	HideDesktop	true
+DEFAULTS	com.apple.WindowManager	EnableStandardClickToShowDesktop	false
+DEFAULTS	com.apple.WindowManager	EnableTiledWindowMargins	false
+DEFAULTS	com.apple.WindowManager	EnableTilingByEdgeDrag	false
+DEFAULTS	com.apple.WindowManager	EnableTopTilingByEdgeDrag	false
+DEFAULTS	com.apple.WindowManager	EnableTilingOptionAccelerator	false
+DEFAULTS	com.apple.WindowManager	StageManagerHideWidgets	true
+DEFAULTS	com.apple.WindowManager	StandardHideWidgets	false
+DEFAULTS	com.apple.WindowManager	AppWindowGroupingBehavior	1
+DEFAULTS	com.apple.widgets	ShowAddSheetOnboardingBanner	false
+DEFAULTS	com.apple.menuextra.clock	ShowDate	0
+DEFAULTS	com.apple.menuextra.clock	ShowDayOfWeek	false
+DEFAULTS	com.apple.menuextra.clock	ShowAMPM	true
+DEFAULTS	com.apple.menuextra.clock	TimeAnnouncementsEnabled	false
+DEFAULTS	com.apple.menuextra.clock	TimeAnnouncementsIntervalIdentifier	"EveryHourInterval"
+DEFAULTS	com.apple.controlcenter	NSStatusItem Visible AirDrop	false
+DEFAULTS	com.apple.controlcenter	NSStatusItem Visible Bluetooth	false
+DEFAULTS	com.apple.controlcenter	NSStatusItem Visible Display	false
+DEFAULTS	com.apple.controlcenter	NSStatusItem Visible FocusModes	false
+DEFAULTS	com.apple.controlcenter	NSStatusItem Visible NowPlaying	false
+DEFAULTS	com.apple.controlcenter	NSStatusItem Visible Sound	false
+DEFAULTS	com.apple.controlcenter	NSStatusItem Visible StageManager	false
+DEFAULTS	com.apple.controlcenter	NSStatusItem Visible WiFi	false
+DEFAULTS	com.apple.controlcenter	NSStatusItem VisibleCC Battery	true
+DEFAULTS	com.apple.controlcenter	NSStatusItem VisibleCC Clock	true
+DEFAULTS	com.apple.controlcenter	NSStatusItem VisibleCC UserSwitcher	true
+DEFAULTS	com.apple.controlcenter	NSStatusItem Preferred Position Battery	228
+DEFAULTS	com.apple.controlcenter	NSStatusItem Preferred Position Bluetooth	342
+DEFAULTS	com.apple.controlcenter	NSStatusItem Preferred Position Display	575
+DEFAULTS	com.apple.controlcenter	NSStatusItem Preferred Position FocusModes	452
+DEFAULTS	com.apple.controlcenter	NSStatusItem Preferred Position Sound	611
+DEFAULTS	com.apple.controlcenter	NSStatusItem Preferred Position StageManager	490
+DEFAULTS	com.apple.controlcenter	NSStatusItem Preferred Position WiFi	304
+DEFAULTS	com.apple.controlcenter	RemoteLiveActivitiesEnabled	true
+DEFAULTS	com.apple.universalaccess	closeViewHotkeysEnabled	false
+DEFAULTS	com.apple.universalaccess	hoverTextEnabled	false
+DEFAULTS	com.apple.universalaccess	hoverTypingEnabled	false
+DEFAULTS	com.apple.universalaccess	stickyKey	false
+DEFAULTS	com.apple.universalaccess	slowKey	false
+DEFAULTS	com.apple.universalaccess	useStickyKeysShortcutKeys	false
+DEFAULTS	com.apple.AdLib	allowApplePersonalizedAdvertising	false
+DEFAULTS	com.apple.AdLib	allowIdentifierForAdvertising	true
+DEFAULTS	com.apple.desktopservices	DSDontWriteNetworkStores	true
+DEFAULTS	com.apple.AppleMultitouchTrackpad	ActuateDetents	1
+DEFAULTS	com.apple.AppleMultitouchTrackpad	Clicking	0
+DEFAULTS	com.apple.AppleMultitouchTrackpad	Dragging	0
+DEFAULTS	com.apple.AppleMultitouchTrackpad	DragLock	0
+DEFAULTS	com.apple.AppleMultitouchTrackpad	FirstClickThreshold	1
+DEFAULTS	com.apple.AppleMultitouchTrackpad	ForceSuppressed	false
+DEFAULTS	com.apple.AppleMultitouchTrackpad	SecondClickThreshold	1
+DEFAULTS	com.apple.AppleMultitouchTrackpad	TrackpadCornerSecondaryClick	0
+DEFAULTS	com.apple.AppleMultitouchTrackpad	TrackpadHorizScroll	1
+DEFAULTS	com.apple.AppleMultitouchTrackpad	TrackpadMomentumScroll	true
+DEFAULTS	com.apple.AppleMultitouchTrackpad	TrackpadPinch	1
+DEFAULTS	com.apple.AppleMultitouchTrackpad	TrackpadRightClick	true
+DEFAULTS	com.apple.AppleMultitouchTrackpad	TrackpadRotate	1
+DEFAULTS	com.apple.AppleMultitouchTrackpad	TrackpadScroll	true
+DEFAULTS	com.apple.AppleMultitouchTrackpad	TrackpadThreeFingerDrag	false
+DEFAULTS	com.apple.AppleMultitouchTrackpad	TrackpadThreeFingerHorizSwipeGesture	2
+DEFAULTS	com.apple.AppleMultitouchTrackpad	TrackpadThreeFingerTapGesture	0
+DEFAULTS	com.apple.AppleMultitouchTrackpad	TrackpadThreeFingerVertSwipeGesture	2
+DEFAULTS	com.apple.AppleMultitouchTrackpad	TrackpadFourFingerHorizSwipeGesture	2
+DEFAULTS	com.apple.AppleMultitouchTrackpad	TrackpadFourFingerVertSwipeGesture	2
+DEFAULTS	com.apple.AppleMultitouchTrackpad	TrackpadFourFingerPinchGesture	2
+DEFAULTS	com.apple.AppleMultitouchTrackpad	TrackpadFiveFingerPinchGesture	2
+DEFAULTS	com.apple.AppleMultitouchTrackpad	TrackpadTwoFingerDoubleTapGesture	1
+DEFAULTS	com.apple.AppleMultitouchTrackpad	TrackpadTwoFingerFromRightEdgeSwipeGesture	3
+DEFAULTS	com.apple.AppleMultitouchTrackpad	USBMouseStopsTrackpad	0
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.trackpad	Clicking	0
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.trackpad	Dragging	0
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.trackpad	DragLock	0
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.trackpad	TrackpadCornerSecondaryClick	0
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.trackpad	TrackpadHorizScroll	1
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.trackpad	TrackpadMomentumScroll	true
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.trackpad	TrackpadPinch	1
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.trackpad	TrackpadRightClick	true
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.trackpad	TrackpadRotate	1
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.trackpad	TrackpadScroll	true
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.trackpad	TrackpadThreeFingerDrag	false
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.trackpad	TrackpadThreeFingerHorizSwipeGesture	2
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.trackpad	TrackpadThreeFingerTapGesture	0
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.trackpad	TrackpadThreeFingerVertSwipeGesture	2
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.trackpad	TrackpadFourFingerHorizSwipeGesture	2
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.trackpad	TrackpadFourFingerVertSwipeGesture	2
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.trackpad	TrackpadFourFingerPinchGesture	2
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.trackpad	TrackpadFiveFingerPinchGesture	2
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.trackpad	TrackpadTwoFingerDoubleTapGesture	1
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.trackpad	TrackpadTwoFingerFromRightEdgeSwipeGesture	3
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.trackpad	USBMouseStopsTrackpad	0
+DEFAULTS	com.apple.AppleMultitouchMouse	MouseButtonDivision	55
+DEFAULTS	com.apple.AppleMultitouchMouse	MouseButtonMode	"OneButton"
+DEFAULTS	com.apple.AppleMultitouchMouse	MouseHorizontalScroll	true
+DEFAULTS	com.apple.AppleMultitouchMouse	MouseMomentumScroll	true
+DEFAULTS	com.apple.AppleMultitouchMouse	MouseOneFingerDoubleTapGesture	0
+DEFAULTS	com.apple.AppleMultitouchMouse	MouseTwoFingerDoubleTapGesture	3
+DEFAULTS	com.apple.AppleMultitouchMouse	MouseTwoFingerHorizSwipeGesture	2
+DEFAULTS	com.apple.AppleMultitouchMouse	MouseVerticalScroll	true
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.mouse	MouseButtonDivision	55
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.mouse	MouseButtonMode	"OneButton"
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.mouse	MouseHorizontalScroll	true
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.mouse	MouseMomentumScroll	true
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.mouse	MouseOneFingerDoubleTapGesture	0
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.mouse	MouseTwoFingerDoubleTapGesture	3
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.mouse	MouseTwoFingerHorizSwipeGesture	2
+DEFAULTS	com.apple.driver.AppleBluetoothMultitouch.mouse	MouseVerticalScroll	true
+SYSTEM	systemsetup	timezone	"Asia/Jerusalem"

@@ -121,6 +121,13 @@ Install personal apps by uncommenting entries at the bottom of `Brewfile`, then:
 brew bundle --file Brewfile
 ```
 
+Mirror additional macOS settings from an existing machine:
+
+```sh
+./settings-mirror/dump_current_settings.sh
+./settings-mirror/compare_and_apply_settings.sh
+```
+
 ## Manual Checklist
 
 The canonical manual checklist (GitHub auth, SSH key, Node tooling, app
